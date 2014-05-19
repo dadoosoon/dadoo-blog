@@ -10,10 +10,10 @@
     <h3 class="panel-title">访问最多的文章</h3>
   </div>
   <div class="panel-body">
-    <ul>
+    <ul id="most-visit-articles-list">
       <% if (articles != null) { %>
         <% for (Article article : articles) { %>
-          <li><span class="badge"><%= article.getClick() %></span><%= article.getTitle() %></li>
+        <li><span class="badge"><%= article.getClick() %></span><a href="/article/<%= article.getId() %>"><%= article.getTitle() %></a></li>
         <% } %>
       <% } %>
     </ul>

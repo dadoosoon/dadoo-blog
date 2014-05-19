@@ -51,6 +51,18 @@ public class ArticleDao extends BaseDao<Article> {
           "SELECT id,title,html,text,publish_datetime,click "
           + "FROM t_article ORDER BY publish_datetime DESC LIMIT :pagecount,:pagesize";
   
+  private static final String LIST_CLICK_DESC_SQL = 
+          "SELECT id,title,html,text,publish_datetime,click "
+          + "FROM t_article ORDER BY click DESC LIMIT :limit";
+  
+  private static final String LIST_BY_TAG_ID_PAGINATION_SQL = 
+          "SELECT t_article.id AS id,t_article.title AS title,t_article.html AS html, "
+          + "t_article.text AS text,t_article.publish_datetime AS publish_datetime, "
+          + "t_article.click AS click FROM t_article "
+          + "RIGHT OUTER JOIN t_tag_article ON t_article.id=t_tag_article.article_id "
+          + "WHERE t_tag_article.tag_id=:tag_id "
+          + "ORDER BY t_article.publish_datetime DESC LIMIT :pagecount,:pagesize";
+  
   private static final String SIZE_SQL = 
           "SELECT count(*) AS size FROM t_article";
   
@@ -125,6 +137,27 @@ public class ArticleDao extends BaseDao<Article> {
     sps.addValue("pagecount", pagecount);
     sps.addValue("pagesize", pagesize);
     List<Article> articles = this.jdbcTemplate.query(LIST_PAGINATION_SQL, sps, this.baseRowMapper);
+    return articles;
+  }
+  
+  public List<Article> listOrderByClickDesc(Integer limit) {
+    MapSqlParameterSource sps = new MapSqlParameterSource();
+    sps.addValue("limit", limit);
+    List<Article> articles = this.jdbcTemplate.query(LIST_CLICK_DESC_SQL, sps, this.baseRowMapper);
+    return articles;
+  }
+  
+  public List<Article> listByTagId(Integer tagId, Integer pagecount, Integer pagesize) {
+    MapSqlParameterSource sps = new MapSqlParameterSource();
+    sps.addValue("tag_id", tagId);
+    sps.addValue("pagecount", pagecount);
+    sps.addValue("pagesize", pagesize);
+    List<Article> articles = this.jdbcTemplate.query(
+            LIST_BY_TAG_ID_PAGINATION_SQL, sps, this.baseRowMapper);
+    System.out.println(tagId);
+    System.out.println(pagecount);
+    System.out.println(pagesize);
+    System.out.println(articles.size());
     return articles;
   }
   

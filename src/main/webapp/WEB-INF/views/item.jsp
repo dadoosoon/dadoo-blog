@@ -1,9 +1,9 @@
 <%@page language="java" contentType="text/html;charset=UTF-8" %>
 <% request.setCharacterEncoding("UTF-8"); %> 
-<%@page import="java.util.*,im.dadoo.blog.domain.*,org.apache.commons.lang3.time.*" %>
+<%@page import="java.util.*,im.dadoo.blog.domain.*,org.apache.commons.lang3.time.*,org.apache.commons.lang3.tuple.*" %>
 
 <%
-  Article article = (Article)request.getAttribute("article");
+  Pair<Article, List<Tag>> pair = (Pair<Article, List<Tag>>)request.getAttribute("pair");
 %>
 
 <!DOCTYPE html>
@@ -11,7 +11,7 @@
 <head>
   <meta name="description" content="blog">
   <jsp:include page="partial/head.jsp" flush="true">
-    <jsp:param name="title" value="<%= article.getTitle() %>" />
+    <jsp:param name="title" value="<%= pair.getLeft().getTitle() %>" />
   </jsp:include>
 </head>
 <body>
@@ -19,16 +19,21 @@
   <div class="container">
     <div class="row">
       <div class="col-md-9">
-        <% if (article != null) { %>
-          <div id="article-<%= article.getId() %>" class="panel panel-default">
+        <% if (pair != null) { %>
+          <div id="article-<%= pair.getLeft().getId() %>" class="panel panel-default">
             <div class="panel-heading">
-              <h1 class="panel-title"><%= article.getTitle() %></h1>
+              <h1 class="panel-title"><%= pair.getLeft().getTitle() %></h1>
             </div>
-            <div class="panel-body"><%= article.getHtml() %></div>
+            <div class="panel-body"><%= pair.getLeft().getHtml() %></div>
             <div class="panel-footer">
-              创建日期：<%= DateFormatUtils.format(article.getPublishDatetime(), "yyyy-MM-dd HH:mm", TimeZone.getTimeZone("GMT+8")) %>&nbsp;|&nbsp;
-              浏览次数：<%= article.getClick() %>&nbsp;|&nbsp;
-              标签：##标签
+              创建日期：<%= DateFormatUtils.format(pair.getLeft().getPublishDatetime(), "yyyy-MM-dd HH:mm", TimeZone.getTimeZone("GMT+8")) %>&nbsp;|&nbsp;
+              浏览次数：<%= pair.getLeft().getClick() %>&nbsp;|&nbsp;
+              标签：
+              <% if (pair.getRight() != null && !pair.getRight().isEmpty()) { %>
+                <% for (Tag tag : pair.getRight()) { %>
+                  &nbsp;<a href="/tag/<%= tag.getId() %>"><%= tag.getName() %></a>
+                <% } %>
+              <% } %>
             </div>
           </div>
         <% } %>

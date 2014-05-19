@@ -1,9 +1,10 @@
 <%@page language="java" contentType="text/html;charset=UTF-8" %>
 <% request.setCharacterEncoding("UTF-8"); %> 
-<%@page import="java.util.*,im.dadoo.blog.domain.*,org.apache.commons.lang3.time.*" %>
+<%@page import="java.util.*,im.dadoo.blog.domain.*,org.apache.commons.lang3.time.*,org.apache.commons.lang3.tuple.*" %>
 
 <%
-  Article article = (Article)request.getAttribute("article");
+  Pair<Article, List<Tag>> pair = (Pair<Article, List<Tag>>)request.getAttribute("pair");
+  List<Tag> tags = (List<Tag>)request.getAttribute("tags");
 %>
 <!DOCTYPE html>
 <html lang="zh_cn">
@@ -22,14 +23,33 @@
         <jsp:include page="partial/leftsidebar.jsp" flush="true" />
       </div>
       <div class="col-md-9">
-        <form id="update-article-form" enctype="multipart/form-data" action="/admin/article/<%= article.getId() %>/update" method="post">
+        <form id="update-article-form" enctype="multipart/form-data" action="/admin/article/<%= pair.getLeft().getId() %>/update" method="post">
           <div class="form-group">
             <label for="title">标题</label>
-            <input name="title" type="text" class="form-control" value="<%= article.getTitle() %>">
+            <input name="title" type="text" class="form-control" value="<%= pair.getLeft().getTitle() %>">
+          </div>
+          <div class="form-group">
+            <label for="tagIds">标签</label>
+            <select id="tagIds" name="tagIds" multiple class="form-control">
+              <% if (tags != null) { %>
+                <% for (Tag tag : tags) { %>
+                  <% Boolean flag = false; %>
+                  <% for (Tag t : pair.getRight()) { %>
+                    <% if (t.getId().equals(tag.getId())) { %>
+                      <option selected="selected" value="<%= tag.getId() %>"><%= tag.getName() %></option>
+                      <% flag = true; %>
+                    <% } %>
+                  <% } %>
+                  <% if (!flag) { %>
+                    <option value="<%= tag.getId() %>"><%= tag.getName() %></option>
+                  <% } %>
+                <% } %>
+              <% } %>
+            </select>
           </div>
           <div class="form-group">
             <label for="html">内容</label>
-            <textarea id="html" name="html" class="form-control" rows="15"><%= article.getHtml() %></textarea>
+            <textarea id="html" name="html" class="form-control" rows="15"><%= pair.getLeft().getHtml() %></textarea>
           </div>
           <div class="form-group">
             <button type="submit" class="btn btn-default">保存</button>

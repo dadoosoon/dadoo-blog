@@ -7,6 +7,7 @@
 package im.dadoo.blog.domain;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  *

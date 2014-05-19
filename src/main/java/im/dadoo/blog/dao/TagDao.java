@@ -43,6 +43,12 @@ public class TagDao extends BaseDao<Tag> {
   private static final String LIST_SQL = 
           "SELECT id,name FROM t_tag ORDER BY id ASC";
   
+  private static final String LIST_BY_ARTICLE_ID_SQL = 
+          "SELECT t_tag.id AS id,t_tag.name AS name FROM t_tag "
+          + "LEFT OUTER JOIN t_tag_article ON t_tag.id=t_tag_article.tag_id "
+          + "WHERE t_tag_article.article_id=:article_id "
+          + "ORDER BY id ASC";
+
   private static final String SIZE_SQL = 
           "SELECT count(*) AS size FROM t_tag";
   
@@ -105,6 +111,12 @@ public class TagDao extends BaseDao<Tag> {
   @Override
   public List<Tag> list() {
     return this.jdbcTemplate.query(LIST_SQL, this.baseRowMapper);
+  }
+  
+  public List<Tag> listByArticleId(Integer articleId) {
+    MapSqlParameterSource sps = new MapSqlParameterSource();
+    sps.addValue("article_id", articleId);
+    return this.jdbcTemplate.query(LIST_BY_ARTICLE_ID_SQL, sps, this.baseRowMapper);
   }
   
   @Override

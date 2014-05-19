@@ -30,7 +30,7 @@ public class Context extends WebMvcConfigurerAdapter {
   @Bean(initMethod = "init", destroyMethod = "close")
   public DataSource dataSource() {
     DruidDataSource dataSource = new DruidDataSource();
-    dataSource.setUrl("jdbc:mysql://db.dadoo.im:33066/dadooblog?characterEncoding=utf8&autoReconnect=true");
+    dataSource.setUrl("jdbc:mysql://202.114.18.242:33066/dadooblog?characterEncoding=utf8&autoReconnect=true");
     dataSource.setUsername("root");
     dataSource.setPassword("dadoo2012dadoo");
     return dataSource;

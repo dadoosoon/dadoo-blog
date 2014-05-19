@@ -2,6 +2,10 @@
 <% request.setCharacterEncoding("UTF-8"); %> 
 <%@page import="java.util.*,im.dadoo.blog.domain.*,org.apache.commons.lang3.time.*" %>
 
+<% 
+  List<Tag> tags = (List<Tag>)request.getAttribute("tags");
+%>
+
 <!DOCTYPE html>
 <html lang="zh_cn">
 <head>
@@ -9,7 +13,7 @@
   <jsp:include page="../partial/head.jsp" flush="true">
     <jsp:param name="title" value="新文章" />
   </jsp:include>
-  <script src="http://cdn.staticfile.org/ckeditor/4.3.2/ckeditor.min.js"></script>
+  <script src="http://cdn.bootcss.com/ckeditor/4.3.2/ckeditor.js"></script>
 </head>
 <body>
   <jsp:include page="../partial/header.jsp" flush="true" />
@@ -23,6 +27,16 @@
           <div class="form-group">
             <label for="title">标题</label>
             <input name="title" type="text" class="form-control">
+          </div>
+          <div class="form-group">
+            <label for="tagIds">标签</label>
+            <select id="tagIds" name="tagIds" multiple class="form-control">
+              <% if (tags != null) { %>
+                <% for (Tag tag : tags) { %>
+                  <option value="<%= tag.getId() %>"><%= tag.getName() %></option>
+                <% } %>
+              <% } %>
+            </select>
           </div>
           <div class="form-group">
             <label for="html">内容</label>

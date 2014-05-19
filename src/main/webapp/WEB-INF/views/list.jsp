@@ -1,9 +1,9 @@
 <%@page language="java" contentType="text/html;charset=UTF-8" %>
 <% request.setCharacterEncoding("UTF-8"); %> 
-<%@page import="java.util.*,im.dadoo.blog.domain.*,org.apache.commons.lang3.time.*" %>
+<%@page import="java.util.*,im.dadoo.blog.domain.*,org.apache.commons.lang3.time.*,org.apache.commons.lang3.tuple.*" %>
 
 <%
-  List<Article> articles = (List<Article>)request.getAttribute("articles");
+  List<Pair<Article, List<Tag>>> pairs = (List<Pair<Article, List<Tag>>>)request.getAttribute("pairs");
 %>
 
 <!DOCTYPE html>
@@ -19,27 +19,35 @@
   <div class="container">
     <div class="row">
       <div class="col-md-9">
-        <% if (articles != null) { %>
-          <% for (Article article : articles) { %>
-          <div id="article-<%= article.getId() %>" class="panel panel-default">
+        <% if (pairs != null) { %>
+          <% for (Pair<Article, List<Tag>> pair : pairs) { %>
+          <div id="article-<%= pair.getLeft().getId() %>" class="panel panel-default">
             <div class="panel-heading">
-              <h1 class="panel-title"><a href="/article/<%= article.getId() %>"><%= article.getTitle() %></a></h1>
+              <h1 class="panel-title"><a href="/article/<%= pair.getLeft().getId() %>"><%= pair.getLeft().getTitle() %></a></h1>
             </div>
             <div class="panel-body">
-              <% if (article.getText().length() < 245) { %>
-                <%= article.getText() %>
+              <% if (pair.getLeft().getText().length() < 245) { %>
+                <%= pair.getLeft().getText() %>
+                <div class="read-more"><a class="btn btn-default btn-xs" href="/article/<%= pair.getLeft().getId() %>">Read More</a></div>
               <% } else { %>
-                <%= article.getText().substring(0, 245) %><a href="/article/<%= article.getId() %>">...更多内容</a>
+                <%= pair.getLeft().getText().substring(0, 245) %>
+                <div class="read-more"><a class="btn btn-default btn-xs" href="/article/<%= pair.getLeft().getId() %>">Read More</a></div>
               <% } %>
             </div>
             <div class="panel-footer">
-              创建日期：<%= DateFormatUtils.format(article.getPublishDatetime(), "yyyy-MM-dd HH:mm", TimeZone.getTimeZone("GMT+8")) %>&nbsp;|&nbsp;
-              浏览次数：<%= article.getClick() %>&nbsp;|&nbsp;
-              标签：##标签
+              创建日期：<%= DateFormatUtils.format(pair.getLeft().getPublishDatetime(), "yyyy-MM-dd HH:mm", TimeZone.getTimeZone("GMT+8")) %>&nbsp;|&nbsp;
+              浏览次数：<%= pair.getLeft().getClick() %>&nbsp;|&nbsp;
+              标签：
+              <% if (pair.getRight() != null && !pair.getRight().isEmpty()) { %>
+                <% for (Tag tag : pair.getRight()) { %>
+                  &nbsp;<a href="/tag/<%= tag.getId() %>"><%= tag.getName() %></a>
+                <% } %>
+              <% } %>
             </div>
           </div>
           <% } %>
         <% } %>
+        <jsp:include page="partial/pagination.jsp" flush="true" />
       </div>
       <div class="col-md-3">
         <jsp:include page="partial/nav.jsp" flush="true" />

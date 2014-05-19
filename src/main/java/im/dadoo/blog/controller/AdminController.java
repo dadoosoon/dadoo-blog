@@ -8,6 +8,8 @@ package im.dadoo.blog.controller;
 
 import im.dadoo.blog.domain.Article;
 import im.dadoo.blog.domain.Tag;
+import java.util.List;
+import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -50,20 +52,22 @@ public class AdminController extends BaseController {
   
   @RequestMapping(value = "/admin/article", method = RequestMethod.GET)
   public String getArticleAdminPage(ModelMap map) {
-    map.addAttribute("articles", this.articleService.list(Integer.SIZE));
+    map.addAttribute("pairs", this.articleService.list(0, Integer.MAX_VALUE));
     return "admin/article";
   }
   
   @RequestMapping(value = "/admin/article/add", method = RequestMethod.GET)
   public String getArticleAddAdminPage(ModelMap map) {
+    map.addAttribute("tags", this.tagService.list());
     return "admin/article-add";
   }
   
   @RequestMapping(value = "/admin/article/{id}/update", method = RequestMethod.GET)
   public String getArticleUpdateAdminPage(@PathVariable Integer id, ModelMap map) {
-    Article article = this.articleService.findById(id);
-    if (article != null) {
-      map.addAttribute("article", article);
+    Pair<Article, List<Tag>> pair = this.articleService.findById(id);
+    if (pair != null) {
+      map.addAttribute("pair", pair);
+      map.addAttribute("tags", this.tagService.list());
       return "admin/article-update";
     } else {
       return "redirect:/404";

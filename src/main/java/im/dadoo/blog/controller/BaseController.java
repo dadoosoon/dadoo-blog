@@ -9,6 +9,7 @@ package im.dadoo.blog.controller;
 import im.dadoo.blog.service.ArticleService;
 import im.dadoo.blog.service.TagService;
 import javax.annotation.Resource;
+import org.springframework.ui.ModelMap;
 
 /**
  *
@@ -21,4 +22,8 @@ public class BaseController {
   
   @Resource
   protected TagService tagService;
+  
+  protected void renderMostVisitArticles(ModelMap map, Integer limit) {
+    map.addAttribute("mostVisitArticles", this.articleService.listMostVisitArticles(limit));
+  }
 }

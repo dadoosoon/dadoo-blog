@@ -1,9 +1,9 @@
 <%@page language="java" contentType="text/html;charset=UTF-8" %>
 <% request.setCharacterEncoding("UTF-8"); %> 
-<%@page import="java.util.*,im.dadoo.blog.domain.*,org.apache.commons.lang3.time.*" %>
+<%@page import="java.util.*,im.dadoo.blog.domain.*,org.apache.commons.lang3.time.*,org.apache.commons.lang3.tuple.*" %>
 
 <%
-  List<Article> articles = (List<Article>)request.getAttribute("articles");
+  List<Pair<Article, List<Tag>>> pairs = (List<Pair<Article, List<Tag>>>)request.getAttribute("pairs");
 %>
 
 <!DOCTYPE html>
@@ -34,16 +34,22 @@
             </tr>
           </thead>
           <tbody>
-            <% if (articles != null) { %>
-              <% for (Article article : articles) { %>
+            <% if (pairs != null) { %>
+              <% for (Pair<Article, List<Tag>> pair : pairs) { %>
               <tr>
-                <td><a href="/article/<%= article.getId() %>"><%= article.getTitle() %></a></td>
-                <td><%= DateFormatUtils.format(article.getPublishDatetime(), "yyyy-MM-dd HH:mm", TimeZone.getTimeZone("GMT+8")) %></td>
-                <td>##标签</td>
-                <td><%= article.getClick() %></td>
+                <td><a href="/article/<%= pair.getLeft().getId() %>"><%= pair.getLeft().getTitle() %></a></td>
+                <td><%= DateFormatUtils.format(pair.getLeft().getPublishDatetime(), "yyyy-MM-dd HH:mm", TimeZone.getTimeZone("GMT+8")) %></td>
                 <td>
-                  <a href="/admin/article/<%= article.getId() %>/update">修改</a>
-                  <a href="/admin/article/<%= article.getId() %>/delete">删除</a>
+                  <% if (pair.getRight() != null && !pair.getRight().isEmpty()) { %>
+                    <% for (Tag tag : pair.getRight()) { %>
+                      &nbsp;<a href="/tag/<%= tag.getId() %>"><%= tag.getName() %></a>
+                    <% } %>
+                  <% } %>
+                </td>
+                <td><%= pair.getLeft().getClick() %></td>
+                <td>
+                  <a href="/admin/article/<%= pair.getLeft().getId() %>/update">修改</a>
+                  <a href="/admin/article/<%= pair.getLeft().getId() %>/delete">删除</a>
                 </td>
               </tr>
               <% } %>
