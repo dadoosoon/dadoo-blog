@@ -10,9 +10,8 @@
 <html lang="zh_cn">
 <head>
   <meta name="description" content="dadoo blog">
-  <jsp:include page="../partial/head.jsp" flush="true">
-    <jsp:param name="title" value="修改文章" />
-  </jsp:include>
+  <title>修改文章 &nbsp; | &nbsp; Dadoo Blog</title>
+  <jsp:include page="../partial/head.jsp" flush="true" />
   <script src="http://cdn.bootcss.com/ckeditor/4.3.2/ckeditor.js"></script>
 </head>
 <body>
@@ -63,7 +62,7 @@
     $("#admin-article-li").addClass("active");
     CKEDITOR.replace("html",{
       uiColor:"#9AB8F3",
-      filebrowserUploadUrl: "/api/upload/media"
+      filebrowserUploadUrl: "/api/upload"
     });
   </script>
 </body>

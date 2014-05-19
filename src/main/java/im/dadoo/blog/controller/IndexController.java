@@ -32,6 +32,8 @@ public class IndexController extends BaseController {
     List<Pair<Article, List<Tag>>> pairs = this.articleService.list(pagecount - 1, Constants.DEFAULT_PAGESIZE);
     if (pairs != null && !pairs.isEmpty()) {
       this.renderMostVisitArticles(map, Constants.DEFAULT_MOST_VISIT_ARTICLE_SIZE);
+      this.renderTagWell(map);
+      this.renderLinks(map);
       map.addAttribute("pairs", pairs);
       map.addAttribute("curPagecount", pagecount);
       map.addAttribute("maxPagecount", 1 + this.articleService.size() / Constants.DEFAULT_PAGESIZE);

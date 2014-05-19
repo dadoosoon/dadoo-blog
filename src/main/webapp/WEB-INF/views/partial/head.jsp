@@ -7,8 +7,6 @@
 <meta name="description" content="dadoo blog">
 <meta name="author" content="dadoosoon">
 
-<title><%= request.getParameter("title") %> &nbsp; | &nbsp; Dadoo Blog</title>
-
 <link rel="stylesheet" href="http://cdn.staticfile.org/twitter-bootstrap/3.1.1/css/bootstrap.min.css" />
 <link rel="stylesheet/less" href="/resources/less/style.less" />
 <!--[if lt IE 9]>

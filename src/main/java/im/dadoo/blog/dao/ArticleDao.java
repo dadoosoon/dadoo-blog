@@ -43,6 +43,14 @@ public class ArticleDao extends BaseDao<Article> {
           "SELECT id,title,html,text,publish_datetime,click "
           + "FROM t_article WHERE id=:id LIMIT 1";
   
+  private static final String FIND_PREV_BY_ID_SQL = 
+          "SELECT id,title,html,text,publish_datetime,click "
+          + "FROM t_article WHERE id<:id ORDER BY id DESC LIMIT 1";
+  
+  private static final String FIND_NEXT_BY_ID_SQL = 
+          "SELECT id,title,html,text,publish_datetime,click "
+          + "FROM t_article WHERE id>:id ORDER BY id ASC LIMIT 1";
+  
   private static final String LIST_LIMIT_SQL = 
           "SELECT id,title,html,text,publish_datetime,click "
           + "FROM t_article ORDER BY publish_datetime DESC LIMIT :limit";
@@ -124,6 +132,28 @@ public class ArticleDao extends BaseDao<Article> {
     }
   }
   
+  public Article findPrevById(Serializable id) {
+    MapSqlParameterSource sps = new MapSqlParameterSource();
+    sps.addValue("id", id);
+    List<Article> articles = this.jdbcTemplate.query(FIND_PREV_BY_ID_SQL, sps, this.baseRowMapper);
+    if (articles != null && !articles.isEmpty()) {
+      return articles.get(0);
+    } else {
+      return null;
+    }
+  }
+  
+  public Article findNextById(Serializable id) {
+    MapSqlParameterSource sps = new MapSqlParameterSource();
+    sps.addValue("id", id);
+    List<Article> articles = this.jdbcTemplate.query(FIND_NEXT_BY_ID_SQL, sps, this.baseRowMapper);
+    if (articles != null && !articles.isEmpty()) {
+      return articles.get(0);
+    } else {
+      return null;
+    }
+  }
+  
   public List<Article> list(Integer limit) {
     MapSqlParameterSource sps = new MapSqlParameterSource();
     sps.addValue("limit", limit);
@@ -154,10 +184,6 @@ public class ArticleDao extends BaseDao<Article> {
     sps.addValue("pagesize", pagesize);
     List<Article> articles = this.jdbcTemplate.query(
             LIST_BY_TAG_ID_PAGINATION_SQL, sps, this.baseRowMapper);
-    System.out.println(tagId);
-    System.out.println(pagecount);
-    System.out.println(pagesize);
-    System.out.println(articles.size());
     return articles;
   }
   

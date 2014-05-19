@@ -7,6 +7,7 @@
 package im.dadoo.blog.controller;
 
 import im.dadoo.blog.domain.Article;
+import im.dadoo.blog.domain.Link;
 import im.dadoo.blog.domain.Tag;
 import java.util.List;
 import org.apache.commons.lang3.tuple.Pair;
@@ -69,6 +70,29 @@ public class AdminController extends BaseController {
       map.addAttribute("pair", pair);
       map.addAttribute("tags", this.tagService.list());
       return "admin/article-update";
+    } else {
+      return "redirect:/404";
+    }
+  }
+  
+  @RequestMapping(value = "/admin/link", method = RequestMethod.GET)
+  public String getLinkAdminPage(ModelMap map) {
+    List<Link> links = this.linkService.list();
+    map.addAttribute("links", links);
+    return "admin/link";
+  }
+  
+  @RequestMapping(value = "/admin/link/add", method = RequestMethod.GET)
+  public String getLinkAddAdminPage(ModelMap map) {
+    return "admin/link-add";
+  }
+  
+  @RequestMapping(value = "/admin/link/{id}/update", method = RequestMethod.GET)
+  public String getAdminLinkUpdatePage(ModelMap map, @PathVariable Integer id) {
+    Link link = this.linkService.findById(id);
+    if (link != null) {
+      map.addAttribute("link", link);
+      return "admin/link-update";
     } else {
       return "redirect:/404";
     }

@@ -10,9 +10,8 @@
 <html lang="zh_cn">
 <head>
   <meta name="description" content="dadoo blog">
-  <jsp:include page="../partial/head.jsp" flush="true">
-    <jsp:param name="title" value="文章管理" />
-  </jsp:include>
+  <title>文章管理 &nbsp; | &nbsp; Dadoo Blog</title>
+  <jsp:include page="../partial/head.jsp" flush="true" />
 </head>
 <body>
   <jsp:include page="../partial/header.jsp" flush="true" />

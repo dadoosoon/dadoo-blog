@@ -10,9 +10,8 @@
 <html lang="zh_cn">
 <head>
   <meta name="description" content="dadoo blog">
-  <jsp:include page="../partial/head.jsp" flush="true">
-    <jsp:param name="title" value="新文章" />
-  </jsp:include>
+  <title>新文章 &nbsp; | &nbsp; Dadoo Blog</title>
+  <jsp:include page="../partial/head.jsp" flush="true" />
   <script src="http://cdn.bootcss.com/ckeditor/4.3.2/ckeditor.js"></script>
 </head>
 <body>
@@ -23,7 +22,7 @@
         <jsp:include page="partial/leftsidebar.jsp" flush="true" />
       </div>
       <div class="col-md-9">
-        <form id="new-article-form" enctype="multipart/form-data" action="/admin/article/add" method="post">
+        <form id="add-article-form" enctype="multipart/form-data" action="/admin/article/add" method="post">
           <div class="form-group">
             <label for="title">标题</label>
             <input name="title" type="text" class="form-control">
@@ -54,7 +53,7 @@
     $("#admin-article-li").addClass("active");
     CKEDITOR.replace("html",{
       uiColor:"#9AB8F3",
-      filebrowserUploadUrl: "/api/upload/media"
+      filebrowserUploadUrl: "/api/upload"
     });
   </script>
 </body>

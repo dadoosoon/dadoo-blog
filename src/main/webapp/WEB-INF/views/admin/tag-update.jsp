@@ -10,9 +10,8 @@
 <html lang="zh_cn">
 <head>
   <meta name="description" content="dadoo blog">
-  <jsp:include page="../partial/head.jsp" flush="true">
-    <jsp:param name="title" value="修改标签" />
-  </jsp:include>
+  <title>修改标签 &nbsp; | &nbsp; Dadoo Blog</title>
+  <jsp:include page="../partial/head.jsp" flush="true" />
 </head>
 <body>
   <jsp:include page="../partial/header.jsp" flush="true" />
@@ -22,7 +21,7 @@
         <jsp:include page="partial/leftsidebar.jsp" flush="true" />
       </div>
       <div class="col-md-9">
-        <form id="new-category-form" action="/admin/tag/<%= tag.getId() %>/update" method="post">
+        <form id="update-tag-form" action="/admin/tag/<%= tag.getId() %>/update" method="post">
           <div class="form-group">
             <label for="name">名称</label>
             <input id="name" name="name" type="text" class="form-control" value="<%= tag.getName() %>">

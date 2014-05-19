@@ -4,21 +4,28 @@
 
 <%
   List<Pair<Article, List<Tag>>> pairs = (List<Pair<Article, List<Tag>>>)request.getAttribute("pairs");
+  Tag curTag = (Tag)request.getAttribute("tag");
 %>
 
 <!DOCTYPE html>
 <html lang="zh_cn">
 <head>
   <meta name="description" content="blog">
-  <jsp:include page="partial/head.jsp" flush="true">
-    <jsp:param name="title" value="1" />
-  </jsp:include>
+  <% if (curTag != null) { %>
+    <title><%= curTag.getName() %> &nbsp; | &nbsp; Dadoo Blog</title>
+  <% } else { %>
+    <title>主页 &nbsp; | &nbsp; Dadoo Blog</title>
+  <% } %>
+  <jsp:include page="partial/head.jsp" flush="true" />
 </head>
 <body>
   <jsp:include page="partial/header.jsp" flush="true" />
   <div class="container">
     <div class="row">
       <div class="col-md-9">
+        <% if (curTag != null) { %>
+          <h4><span class="label label-success"><%= curTag.getName() %></span></h4>
+        <% } %>
         <% if (pairs != null) { %>
           <% for (Pair<Article, List<Tag>> pair : pairs) { %>
           <div id="article-<%= pair.getLeft().getId() %>" class="panel panel-default">
@@ -52,6 +59,8 @@
       <div class="col-md-3">
         <jsp:include page="partial/nav.jsp" flush="true" />
         <jsp:include page="partial/most-visit-articles.jsp" flush="true" />
+        <jsp:include page="partial/tag-well.jsp" flush="true" />
+        <jsp:include page="partial/link-well.jsp" flush="true" />
       </div>
     </div>
   </div>

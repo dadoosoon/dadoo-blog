@@ -88,6 +88,10 @@ public class ArticleService {
     }
   }
   
+  public Pair<Article, Article> findPrevAndNextById(Integer id) {
+    return ImmutablePair.of(this.articleDao.findPrevById(id), this.articleDao.findNextById(id));
+  }
+  
   public List<Article> list(Integer limit) {
     return this.articleDao.list(limit);
   }

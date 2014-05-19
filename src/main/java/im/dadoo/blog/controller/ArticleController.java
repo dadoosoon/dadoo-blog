@@ -31,7 +31,10 @@ public class ArticleController extends BaseController {
     if (pair != null) {
       this.articleService.click(id);
       this.renderMostVisitArticles(map, Constants.DEFAULT_MOST_VISIT_ARTICLE_SIZE);
+      this.renderTagWell(map);
+      this.renderLinks(map);
       map.addAttribute("pair", pair);
+      map.addAttribute("pn", this.articleService.findPrevAndNextById(id));
       return "item";
     } else {
       return "redirect:/404";
@@ -48,6 +51,9 @@ public class ArticleController extends BaseController {
             this.articleService.listByTagId(id, pagecount - 1, Constants.DEFAULT_PAGESIZE);
     if (pairs != null && !pairs.isEmpty()) {
       this.renderMostVisitArticles(map, Constants.DEFAULT_MOST_VISIT_ARTICLE_SIZE);
+      this.renderTagWell(map);
+      this.renderLinks(map);
+      map.addAttribute("tag", this.tagService.findById(id));
       map.addAttribute("pairs", pairs);
       map.addAttribute("curPagecount", pagecount);
       map.addAttribute("maxPagecount", 1 + this.articleService.sizeByTagId(id)/ Constants.DEFAULT_PAGESIZE);

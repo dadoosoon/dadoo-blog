@@ -8,7 +8,6 @@
   <div class="panel-body">
     <ul>
       <li><a href="">关于</a></li>
-      <li><a href="">标签墙</a></li>
       <li><a href="">更新历史</a></li>
     </ul>
   </div>

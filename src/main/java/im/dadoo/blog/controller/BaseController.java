@@ -6,9 +6,15 @@
 
 package im.dadoo.blog.controller;
 
+import im.dadoo.blog.domain.Tag;
 import im.dadoo.blog.service.ArticleService;
+import im.dadoo.blog.service.LinkService;
 import im.dadoo.blog.service.TagService;
+import java.util.ArrayList;
+import java.util.List;
 import javax.annotation.Resource;
+import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.ui.ModelMap;
 
 /**
@@ -23,7 +29,25 @@ public class BaseController {
   @Resource
   protected TagService tagService;
   
+  @Resource
+  protected LinkService linkService;
+  
   protected void renderMostVisitArticles(ModelMap map, Integer limit) {
     map.addAttribute("mostVisitArticles", this.articleService.listMostVisitArticles(limit));
+  }
+  
+  protected void renderTagWell(ModelMap map) {
+    List<Tag> tags = this.tagService.list();
+    if (tags != null && !tags.isEmpty()) {
+      List<Pair<Tag, Integer>> tagPairs = new ArrayList<>();
+      for (Tag tag : tags) {
+        tagPairs.add(ImmutablePair.of(tag, this.tagService.sizeByTagId(tag.getId())));
+      }
+      map.addAttribute("tagPairs", tagPairs);
+    }
+  }
+  
+  protected void renderLinks(ModelMap map) {
+    map.addAttribute("links", this.linkService.list());
   }
 }

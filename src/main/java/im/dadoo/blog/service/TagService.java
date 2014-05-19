@@ -6,6 +6,7 @@
 
 package im.dadoo.blog.service;
 
+import im.dadoo.blog.dao.TagArticleDao;
 import im.dadoo.blog.dao.TagDao;
 import im.dadoo.blog.domain.Tag;
 import java.util.List;
@@ -23,6 +24,9 @@ public class TagService {
   
   @Resource
   private TagDao tagDao;
+  
+  @Resource
+  private TagArticleDao taDao;
   
   public Tag add(String name) {
     Tag tag = Tag.create(name);
@@ -55,5 +59,9 @@ public class TagService {
   
   public Integer size() {
     return (Integer)this.tagDao.size();
+  }
+  
+  public Integer sizeByTagId(Integer tagId) {
+    return (Integer)this.taDao.sizeByTagId(tagId);
   }
 }
