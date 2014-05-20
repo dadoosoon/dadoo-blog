@@ -1,0 +1,51 @@
+<%@page language="java" contentType="text/html;charset=UTF-8" %>
+<% request.setCharacterEncoding("UTF-8"); %> 
+<%@page import="java.util.*,im.dadoo.blog.domain.*,org.apache.commons.lang3.time.*,org.apache.commons.lang3.tuple.*" %>
+
+<!DOCTYPE html>
+<html lang="zh_cn">
+<head>
+  <meta name="description" content="blog">
+  <title>更新历史 &nbsp; | &nbsp; Dadoo Blog</title>
+  <jsp:include page="partial/head.jsp" flush="true" />
+</head>
+<body>
+  <jsp:include page="partial/header.jsp" flush="true" />
+  <div class="container">
+    <div class="row">
+      <div class="col-md-9">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h1 class="panel-title">更新历史</h1>
+          </div>
+          <ul class="list-group">
+            <li class="list-group-item">
+              <h3 class="list-group-item-heading"><span class="label label-info">0.0.1</span><small class="pull-right">更新时间:2014-05-20</small></h3>
+              <ol class="version-list">
+                <li>创建blog</li>
+              </ol>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <jsp:include page="partial/nav.jsp" flush="true" />
+        <jsp:include page="partial/most-visit-articles.jsp" flush="true" />
+        <jsp:include page="partial/tag-well.jsp" flush="true" />
+      </div>
+    </div>
+  </div>
+  <jsp:include page="partial/footer.jsp" flush="true" />
+  <script type="text/javascript">
+  /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+  var disqus_shortname = 'dadoo-blog'; // required: replace example with your forum shortname
+
+  /* * * DON'T EDIT BELOW THIS LINE * * */
+  (function () {
+      var s = document.createElement('script'); s.async = true;
+      s.type = 'text/javascript';
+      s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+      (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+  }());
+  </script>
+</body>

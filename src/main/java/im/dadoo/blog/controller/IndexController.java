@@ -42,4 +42,12 @@ public class IndexController extends BaseController {
       return "404";
     }
   }
+  
+  @RequestMapping(value = "/version", method = RequestMethod.GET)
+  public String version(ModelMap map) {
+    this.renderMostVisitArticles(map, Constants.DEFAULT_MOST_VISIT_ARTICLE_SIZE);
+    this.renderTagWell(map);
+    this.renderLinks(map);
+    return "version";
+  }
 }
