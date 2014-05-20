@@ -25,6 +25,13 @@
                 <li>创建blog</li>
               </ol>
             </li>
+            <li class="list-group-item">
+              <h3 class="list-group-item-heading"><span class="label label-info">0.0.2</span><small class="pull-right">更新时间:2014-05-21</small></h3>
+              <ol class="version-list">
+                <li>#bugfixed 删除文章后与标签关联信息未同时删除</li>
+                <li>#bugfixed 没有文章时页面显示404</li>
+              </ol>
+            </li>
           </ul>
         </div>
       </div>

@@ -43,6 +43,7 @@ public class TagService {
   
   public void deleteById(Integer id) {
     this.tagDao.deleteById(id);
+    this.taDao.deleteByTagId(id);
   }
   
   public Tag findById(Integer id) {

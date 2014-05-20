@@ -49,18 +49,14 @@ public class ArticleController extends BaseController {
     }
     List<Pair<Article, List<Tag>>> pairs = 
             this.articleService.listByTagId(id, pagecount - 1, Constants.DEFAULT_PAGESIZE);
-    if (pairs != null && !pairs.isEmpty()) {
-      this.renderMostVisitArticles(map, Constants.DEFAULT_MOST_VISIT_ARTICLE_SIZE);
-      this.renderTagWell(map);
-      this.renderLinks(map);
-      map.addAttribute("tag", this.tagService.findById(id));
-      map.addAttribute("pairs", pairs);
-      map.addAttribute("curPagecount", pagecount);
-      map.addAttribute("maxPagecount", 1 + this.articleService.sizeByTagId(id)/ Constants.DEFAULT_PAGESIZE);
-      return "list";
-    } else {
-      return "404";
-    }
+    this.renderMostVisitArticles(map, Constants.DEFAULT_MOST_VISIT_ARTICLE_SIZE);
+    this.renderTagWell(map);
+    this.renderLinks(map);
+    map.addAttribute("tag", this.tagService.findById(id));
+    map.addAttribute("pairs", pairs);
+    map.addAttribute("curPagecount", pagecount);
+    map.addAttribute("maxPagecount", 1 + this.articleService.sizeByTagId(id)/ Constants.DEFAULT_PAGESIZE);
+    return "list";
   }
   
   @RequestMapping(value = "/admin/article/add", method = RequestMethod.POST)

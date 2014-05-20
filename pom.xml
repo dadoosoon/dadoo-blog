@@ -4,7 +4,7 @@
 
     <groupId>im.dadoo</groupId>
     <artifactId>dadoo-blog</artifactId>
-    <version>0.0.1</version>
+    <version>0.0.2</version>
     <packaging>war</packaging>
 
     <name>dadoo-blog</name>

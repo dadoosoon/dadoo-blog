@@ -76,6 +76,7 @@ public class ArticleService {
   
   public void deleteById(Integer id) {
     this.articleDao.deleteById(id);
+    this.taDao.deleteByArticleId(id);
   }
   
   public Pair<Article, List<Tag>> findById(Integer id) {
