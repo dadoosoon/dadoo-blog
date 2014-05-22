@@ -30,6 +30,7 @@
               <ol class="version-list">
                 <li>#bugfixed 删除文章后与标签关联信息未同时删除</li>
                 <li>#bugfixed 没有文章时页面显示404</li>
+                <li>#feature 增加百度站长统计功能</li>
               </ol>
             </li>
           </ul>
