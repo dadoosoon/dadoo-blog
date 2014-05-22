@@ -23,6 +23,9 @@ public class LinkController extends BaseController {
   @RequestMapping(value = "/admin/link/add", method = RequestMethod.POST)
   public String save(@RequestParam String name, @RequestParam String url, 
           @RequestParam(required = false) String description) {
+    if (!url.startsWith("http://")) {
+      return "redirect:/404";
+    }
     Link link = this.linkService.add(name, url, description);
     if (link != null) {
       return "redirect:/admin/link";
