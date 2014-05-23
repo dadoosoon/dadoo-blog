@@ -8,6 +8,8 @@ package im.dadoo.blog.configuration;
 
 import com.alibaba.druid.pool.DruidDataSource;
 import javax.sql.DataSource;
+import org.apache.commons.configuration.ConfigurationException;
+import org.apache.commons.configuration.PropertiesConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -26,6 +28,11 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 @EnableWebMvc
 @ComponentScan("im.dadoo.blog")
 public class Context extends WebMvcConfigurerAdapter {
+  
+  @Bean
+  public PropertiesConfiguration config() throws ConfigurationException {
+    return new PropertiesConfiguration("blog.properties");
+  }
   
   @Bean(initMethod = "init", destroyMethod = "close")
   public DataSource dataSource() {

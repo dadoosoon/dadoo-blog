@@ -97,4 +97,10 @@ public class AdminController extends BaseController {
       return "redirect:/404";
     }
   }
+  
+  @RequestMapping(value = "/admin/config", method = RequestMethod.GET)
+  public String getAdminConfigPage(ModelMap map) {
+    map.addAttribute("title", this.configService.getTitle());
+    return "admin/config";
+  }
 }
