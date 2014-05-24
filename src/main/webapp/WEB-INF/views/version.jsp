@@ -38,6 +38,7 @@
               <h3 class="list-group-item-heading"><span class="label label-info">0.0.3</span><small class="pull-right">更新时间:2014-05-22</small></h3>
               <ol class="version-list">
                 <li>#bugfixed 增加链接时未判断url是否合法</li>
+                <li>#bugfixed 点开文章时，浏览次数与侧边栏的统计不同步</li>
                 <li>#feature 提供基本信息配置功能</li>
               </ol>
             </li>
