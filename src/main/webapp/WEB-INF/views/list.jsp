@@ -3,8 +3,8 @@
 <%@page import="java.util.*,im.dadoo.blog.domain.*,org.apache.commons.lang3.time.*,org.apache.commons.lang3.tuple.*" %>
 
 <%
-  List<Pair<Article, List<Tag>>> pairs = (List<Pair<Article, List<Tag>>>)request.getAttribute("pairs");
-  Tag curTag = (Tag)request.getAttribute("tag");
+  List<Pair<Article, List<Tag>>> pairs = (List<Pair<Article, List<Tag>>>)request.getAttribute("article-tags-pairs");
+  Tag curTag = (Tag)request.getAttribute("current-tag");
 %>
 
 <!DOCTYPE html>
@@ -12,9 +12,13 @@
 <head>
   <meta name="description" content="blog">
   <% if (curTag != null) { %>
-    <title><%= curTag.getName() %> &nbsp; | &nbsp; Dadoo Blog</title>
+    <jsp:include page="partial/head.jsp" flush="true">
+      <jsp:param name="title" value="<%= curTag.getName() %>" />
+    </jsp:include>
   <% } else { %>
-    <title>主页 &nbsp; | &nbsp; Dadoo Blog</title>
+    <jsp:include page="partial/head.jsp" flush="true">
+      <jsp:param name="title" value="主页" />
+    </jsp:include>
   <% } %>
   <jsp:include page="partial/head.jsp" flush="true" />
 </head>

@@ -3,7 +3,7 @@
 <%@page import="java.util.*,im.dadoo.blog.domain.*,org.apache.commons.lang3.time.*" %>
 
 <%
-  List<Article> articles = (List<Article>)request.getAttribute("mostVisitArticles");
+  List<Article> articles = (List<Article>)request.getAttribute("most-visit-articles");
 %>
 <div class="panel panel-default">
   <div class="panel-heading">

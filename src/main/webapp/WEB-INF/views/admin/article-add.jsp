@@ -10,8 +10,9 @@
 <html lang="zh_cn">
 <head>
   <meta name="description" content="dadoo blog">
-  <title>新文章 &nbsp; | &nbsp; Dadoo Blog</title>
-  <jsp:include page="../partial/head.jsp" flush="true" />
+  <jsp:include page="../partial/head.jsp" flush="true">
+    <jsp:param name="title" value="新文章" />
+  </jsp:include>
   <script src="http://cdn.bootcss.com/ckeditor/4.3.2/ckeditor.js"></script>
 </head>
 <body>

@@ -53,7 +53,7 @@ public class AdminController extends BaseController {
   
   @RequestMapping(value = "/admin/article", method = RequestMethod.GET)
   public String getArticleAdminPage(ModelMap map) {
-    map.addAttribute("pairs", this.articleService.list(0, Integer.MAX_VALUE));
+    map.addAttribute("article-tags-pairs", this.articleService.list(0, Integer.MAX_VALUE));
     return "admin/article";
   }
   
@@ -67,7 +67,7 @@ public class AdminController extends BaseController {
   public String getArticleUpdateAdminPage(@PathVariable Integer id, ModelMap map) {
     Pair<Article, List<Tag>> pair = this.articleService.findById(id);
     if (pair != null) {
-      map.addAttribute("pair", pair);
+      map.addAttribute("article-tags-pair", pair);
       map.addAttribute("tags", this.tagService.list());
       return "admin/article-update";
     } else {
@@ -101,6 +101,8 @@ public class AdminController extends BaseController {
   @RequestMapping(value = "/admin/config", method = RequestMethod.GET)
   public String getAdminConfigPage(ModelMap map) {
     map.addAttribute("title", this.configService.getTitle());
+    map.addAttribute("most-visit-article-size", this.configService.getMostVisitArticleSize());
+    map.addAttribute("article-pagesize", this.configService.getArticlePagesize());
     return "admin/config";
   }
 }

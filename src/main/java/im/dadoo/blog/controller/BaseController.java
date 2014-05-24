@@ -37,18 +37,25 @@ public class BaseController {
   @Resource
   protected ConfigService configService;
   
-  protected void renderMostVisitArticles(ModelMap map, Integer limit) {
-    map.addAttribute("mostVisitArticles", this.articleService.listMostVisitArticles(limit));
+  protected void renderSidebar(ModelMap map) {
+    this.renderMostVisitArticles(map);
+    this.renderTagWell(map);
+    this.renderLinks(map);
+  }
+  
+  protected void renderMostVisitArticles(ModelMap map) {
+    map.addAttribute("most-visit-articles", 
+            this.articleService.listMostVisitArticles(this.configService.getMostVisitArticleSize()));
   }
   
   protected void renderTagWell(ModelMap map) {
     List<Tag> tags = this.tagService.list();
     if (tags != null && !tags.isEmpty()) {
-      List<Pair<Tag, Integer>> tagPairs = new ArrayList<>();
+      List<Pair<Tag, Integer>> pairs = new ArrayList<>();
       for (Tag tag : tags) {
-        tagPairs.add(ImmutablePair.of(tag, this.tagService.sizeByTagId(tag.getId())));
+        pairs.add(ImmutablePair.of(tag, this.tagService.sizeByTagId(tag.getId())));
       }
-      map.addAttribute("tagPairs", tagPairs);
+      map.addAttribute("tag-size-pairs", pairs);
     }
   }
   

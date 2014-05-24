@@ -6,7 +6,6 @@
 
 package im.dadoo.blog.controller;
 
-import im.dadoo.blog.cons.Constants;
 import im.dadoo.blog.domain.Article;
 import im.dadoo.blog.domain.Tag;
 import java.util.List;
@@ -27,14 +26,12 @@ public class ArticleController extends BaseController {
   
   @RequestMapping(value = "/article/{id}", method = RequestMethod.GET)
   public String item(@PathVariable Integer id, ModelMap map) {
+    this.articleService.click(id);
     Pair<Article, List<Tag>> pair = this.articleService.findById(id);
     if (pair != null) {
-      this.articleService.click(id);
-      this.renderMostVisitArticles(map, Constants.DEFAULT_MOST_VISIT_ARTICLE_SIZE);
-      this.renderTagWell(map);
-      this.renderLinks(map);
+      this.renderSidebar(map);
       map.addAttribute("pair", pair);
-      map.addAttribute("pn", this.articleService.findPrevAndNextById(id));
+      map.addAttribute("prev-next", this.articleService.findPrevAndNextById(id));
       return "item";
     } else {
       return "redirect:/404";
@@ -47,15 +44,14 @@ public class ArticleController extends BaseController {
     if (pagecount == null) {
       pagecount = 1;
     }
+    Integer pagesize = this.configService.getArticlePagesize();
     List<Pair<Article, List<Tag>>> pairs = 
-            this.articleService.listByTagId(id, pagecount - 1, Constants.DEFAULT_PAGESIZE);
-    this.renderMostVisitArticles(map, Constants.DEFAULT_MOST_VISIT_ARTICLE_SIZE);
-    this.renderTagWell(map);
-    this.renderLinks(map);
-    map.addAttribute("tag", this.tagService.findById(id));
-    map.addAttribute("pairs", pairs);
-    map.addAttribute("curPagecount", pagecount);
-    map.addAttribute("maxPagecount", 1 + this.articleService.sizeByTagId(id)/ Constants.DEFAULT_PAGESIZE);
+            this.articleService.listByTagId(id, pagecount - 1, pagesize);
+    this.renderSidebar(map);
+    map.addAttribute("current-tag", this.tagService.findById(id));
+    map.addAttribute("article-tags-pairs", pairs);
+    map.addAttribute("cur-pagecount", pagecount);
+    map.addAttribute("max-pagecount", 1 + this.articleService.sizeByTagId(id)/ pagesize);
     return "list";
   }
   

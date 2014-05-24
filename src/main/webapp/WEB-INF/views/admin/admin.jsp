@@ -6,8 +6,9 @@
 <html lang="zh_cn">
 <head>
   <meta name="description" content="dadoo blog">
-  <title>管理界面 &nbsp; | &nbsp; Dadoo Blog</title>
-  <jsp:include page="../partial/head.jsp" flush="true" />
+  <jsp:include page="../partial/head.jsp" flush="true">
+    <jsp:param name="title" value="管理界面" />
+  </jsp:include>
 </head>
 <body>
   <jsp:include page="../partial/header.jsp" flush="true" />

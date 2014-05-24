@@ -9,9 +9,9 @@
 <!DOCTYPE html>
 <html lang="zh_cn">
 <head>
-  <meta name="description" content="dadoo blog">
-  <title>修改链接 &nbsp; | &nbsp; Dadoo Blog</title>
-  <jsp:include page="../partial/head.jsp" flush="true" />
+  <jsp:include page="../partial/head.jsp" flush="true">
+    <jsp:param name="title" value="修改链接" />
+  </jsp:include>
 </head>
 <body>
   <jsp:include page="../partial/header.jsp" flush="true" />

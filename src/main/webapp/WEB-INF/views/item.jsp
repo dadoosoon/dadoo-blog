@@ -4,15 +4,16 @@
 
 <%
   Pair<Article, List<Tag>> pair = (Pair<Article, List<Tag>>)request.getAttribute("pair");
-  Pair<Article, Article> pn = (Pair<Article, Article>)request.getAttribute("pn");
+  Pair<Article, Article> pn = (Pair<Article, Article>)request.getAttribute("prev-next");
 %>
 
 <!DOCTYPE html>
 <html lang="zh_cn">
 <head>
   <meta name="description" content="blog">
-  <title><%= pair.getLeft().getTitle() %> &nbsp; | &nbsp; Dadoo Blog</title>
-  <jsp:include page="partial/head.jsp" flush="true" />
+  <jsp:include page="partial/head.jsp" flush="true">
+    <jsp:param name="title" value="<%= pair.getLeft().getTitle() %>" />
+  </jsp:include>
 </head>
 <body>
   <jsp:include page="partial/header.jsp" flush="true" />

@@ -3,15 +3,16 @@
 <%@page import="java.util.*,im.dadoo.blog.domain.*,org.apache.commons.lang3.time.*,org.apache.commons.lang3.tuple.*" %>
 
 <%
-  Pair<Article, List<Tag>> pair = (Pair<Article, List<Tag>>)request.getAttribute("pair");
+  Pair<Article, List<Tag>> pair = (Pair<Article, List<Tag>>)request.getAttribute("article-tags-pair");
   List<Tag> tags = (List<Tag>)request.getAttribute("tags");
 %>
 <!DOCTYPE html>
 <html lang="zh_cn">
 <head>
   <meta name="description" content="dadoo blog">
-  <title>修改文章 &nbsp; | &nbsp; Dadoo Blog</title>
-  <jsp:include page="../partial/head.jsp" flush="true" />
+  <jsp:include page="../partial/head.jsp" flush="true">
+    <jsp:param name="title" value="修改文章" />
+  </jsp:include>
   <script src="http://cdn.bootcss.com/ckeditor/4.3.2/ckeditor.js"></script>
 </head>
 <body>

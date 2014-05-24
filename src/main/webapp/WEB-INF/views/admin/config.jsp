@@ -5,9 +5,9 @@
 <!DOCTYPE html>
 <html lang="zh_cn">
 <head>
-  <meta name="description" content="dadoo blog">
-  <title>配置管理 &nbsp; | &nbsp; Dadoo Blog</title>
-  <jsp:include page="../partial/head.jsp" flush="true" />
+  <jsp:include page="../partial/head.jsp" flush="true">
+    <jsp:param name="title" value="配置管理" />
+  </jsp:include>
 </head>
 <body>
   <jsp:include page="../partial/header.jsp" flush="true" />
@@ -21,6 +21,14 @@
           <div class="form-group">
             <label for="title">标题</label>
             <input name="title" type="text" class="form-control" value="<%= request.getAttribute("title") %>">
+          </div>
+          <div class="form-group">
+            <label for="most-visit-article-size">访问最多文章显示条数</label>
+            <input name="most-visit-article-size" type="text" class="form-control" value="<%= request.getAttribute("most-visit-article-size") %>">
+          </div>
+          <div class="form-group">
+            <label for="article-pagesize">每页显示文章数</label>
+            <input name="article-pagesize" type="text" class="form-control" value="<%= request.getAttribute("article-pagesize") %>">
           </div>
           <div class="form-group">
             <button type="submit" class="btn btn-default">保存</button>

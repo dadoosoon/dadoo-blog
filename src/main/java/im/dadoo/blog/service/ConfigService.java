@@ -29,6 +29,22 @@ public final class ConfigService {
     this.config.setProperty("title", title);
   }
   
+  public Integer getMostVisitArticleSize() {
+    return this.config.getInt("most-visit-article-size");
+  }
+  
+  public void setMostVisitArticleSize(Integer size) {
+    this.config.setProperty("most-visit-article-size", size);
+  }
+  
+  public Integer getArticlePagesize() {
+    return this.config.getInt("article-pagesize");
+  }
+  
+  public void setArticlePagesize(Integer size) {
+    this.config.setProperty("article-pagesize", size);
+  }
+  
   public void save() throws ConfigurationException {
     this.config.save();
   }

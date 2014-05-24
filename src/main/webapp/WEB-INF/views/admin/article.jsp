@@ -3,15 +3,16 @@
 <%@page import="java.util.*,im.dadoo.blog.domain.*,org.apache.commons.lang3.time.*,org.apache.commons.lang3.tuple.*" %>
 
 <%
-  List<Pair<Article, List<Tag>>> pairs = (List<Pair<Article, List<Tag>>>)request.getAttribute("pairs");
+  List<Pair<Article, List<Tag>>> pairs = (List<Pair<Article, List<Tag>>>)request.getAttribute("article-tags-pairs");
 %>
 
 <!DOCTYPE html>
 <html lang="zh_cn">
 <head>
   <meta name="description" content="dadoo blog">
-  <title>文章管理 &nbsp; | &nbsp; Dadoo Blog</title>
-  <jsp:include page="../partial/head.jsp" flush="true" />
+  <jsp:include page="../partial/head.jsp" flush="true">
+    <jsp:param name="title" value="文章管理" />
+  </jsp:include>
 </head>
 <body>
   <jsp:include page="../partial/header.jsp" flush="true" />
