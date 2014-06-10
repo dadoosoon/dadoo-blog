@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  * @author codekitten
  */
 @Controller
-public final class ConfigController extends BaseController {
+public class ConfigController extends BaseController {
   
   @RequestMapping(value = "/admin/config", method = RequestMethod.POST)
   public String config(HttpSession session, @RequestParam String title,

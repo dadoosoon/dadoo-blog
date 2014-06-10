@@ -42,6 +42,12 @@
                 <li>#feature 提供基本信息配置功能</li>
               </ol>
             </li>
+            <li class="list-group-item">
+              <h3 class="list-group-item-heading"><span class="label label-info">0.0.4</span><small class="pull-right">更新时间:2014-06-09</small></h3>
+              <ol class="version-list">
+                <li>#feature 后台增加访问和函数监控日志</li>
+              </ol>
+            </li>
           </ul>
         </div>
       </div>
