@@ -37,8 +37,8 @@ public class ControllerAspect {
     long t2 = System.currentTimeMillis();
     String sig = pjp.getSignature().toLongString();
 		Object[] args = pjp.getArgs();
-    logger.info("函数信息:{}~~参数值:{}~~运行时间:{}", sig, args, t2 - t1);
-    Log log = LogMaker.makeFunctionLog("dadooblog", sig, args, ret, t2 - t1);
+    logger.info("函数名:{}~~运行时间:{}", sig, t2 - t1);
+    Log log = LogMaker.makeFunctionLog("dadooblog", sig, null, null, t2 - t1);
     this.loggerClient.send(log);
     return ret;
   }
