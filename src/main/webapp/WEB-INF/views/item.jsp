@@ -24,19 +24,21 @@
           <div id="article-<%= pair.getLeft().getId() %>" class="panel panel-default">
             <div class="panel-heading">
               <h1 class="panel-title"><%= pair.getLeft().getTitle() %></h1>
+              <h6 class="panel-meta">
+                <span class="glyphicon glyphicon-calendar"></span><span class="meta-content"><%= DateFormatUtils.format(pair.getLeft().getPublishDatetime(), "yyyy-MM-dd HH:mm", TimeZone.getTimeZone("GMT+8")) %></span>
+                <span class="glyphicon glyphicon-eye-open"></span><span class="meta-content"><%= pair.getLeft().getClick() %>次点击</span>
+                <span class="glyphicon glyphicon-comment"></span><span class="meta-content"><a href="/article/<%= pair.getLeft().getId() %>#disqus_thread"></a>条评论</span>
+                <span class="glyphicon glyphicon-folder-open"></span>
+                <span class="meta-content">
+                  <% if (pair.getRight() != null && !pair.getRight().isEmpty()) { %>
+                    <% for (Tag tag : pair.getRight()) { %>
+                      &nbsp;<a href="/tag/<%= tag.getId() %>"><%= tag.getName() %></a>
+                    <% } %>
+                  <% } %>
+                </span>
+              </h6>
             </div>
             <div class="panel-body"><%= pair.getLeft().getHtml() %></div>
-            <div class="panel-footer">
-              创建日期：<%= DateFormatUtils.format(pair.getLeft().getPublishDatetime(), "yyyy-MM-dd HH:mm", TimeZone.getTimeZone("GMT+8")) %>&nbsp;|&nbsp;
-              浏览次数：<%= pair.getLeft().getClick() %>&nbsp;|&nbsp;
-              评论次数：<a href="/article/<%= pair.getLeft().getId() %>#disqus_thread"></a>&nbsp;|&nbsp;
-              标签：
-              <% if (pair.getRight() != null && !pair.getRight().isEmpty()) { %>
-                <% for (Tag tag : pair.getRight()) { %>
-                  &nbsp;<a href="/tag/<%= tag.getId() %>"><%= tag.getName() %></a>
-                <% } %>
-              <% } %>
-            </div>
           </div>
           <div>
             <% if (pn != null) { %>
