@@ -8,8 +8,10 @@ package im.dadoo.blog.configuration;
 
 import com.alibaba.druid.pool.DruidDataSource;
 import im.dadoo.blog.interceptor.SessionInterceptor;
+import im.dadoo.blog.interceptor.SidebarInterceptor;
 import im.dadoo.logger.client.LoggerClient;
 import im.dadoo.logger.client.impl.DefaultLoggerClient;
+import javax.annotation.Resource;
 import javax.sql.DataSource;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
@@ -17,8 +19,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
+import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -32,12 +37,16 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 @Configuration
 @EnableWebMvc
 @EnableAspectJAutoProxy
+@PropertySource("classpath:config.properties")
 @ComponentScan("im.dadoo.blog")
 public class Context extends WebMvcConfigurerAdapter {
   
+  @Resource
+  private Environment env;
+  
   @Bean
   public LoggerClient loggerClient() {
-    return new DefaultLoggerClient("http://log.dadoo.im/logger");
+    return new DefaultLoggerClient(env.getProperty("logger-server.url"));
   }
   
   @Bean
@@ -48,9 +57,9 @@ public class Context extends WebMvcConfigurerAdapter {
   @Bean(initMethod = "init", destroyMethod = "close")
   public DataSource dataSource() {
     DruidDataSource dataSource = new DruidDataSource();
-    dataSource.setUrl("jdbc:mysql://202.114.18.242:33066/dadooblog?characterEncoding=utf8&autoReconnect=true");
-    dataSource.setUsername("root");
-    dataSource.setPassword("dadoo2012dadoo");
+    dataSource.setUrl(env.getProperty("jdbc.url"));
+    dataSource.setUsername(env.getProperty("jdbc.username"));
+    dataSource.setPassword(env.getProperty("jdbc.password"));
     return dataSource;
   }
   
@@ -63,6 +72,11 @@ public class Context extends WebMvcConfigurerAdapter {
   @Bean
   public SessionInterceptor sessionInterceptor() {
     return new SessionInterceptor();
+  }
+  
+  @Bean
+  public HandlerInterceptor sidebarInterceptor() {
+    return new SidebarInterceptor();
   }
   
   @Bean
@@ -89,5 +103,7 @@ public class Context extends WebMvcConfigurerAdapter {
   @Override
   public void addInterceptors(InterceptorRegistry registry) {
     registry.addInterceptor(sessionInterceptor()).addPathPatterns("/**");
+    registry.addInterceptor(sidebarInterceptor()).addPathPatterns("/").addPathPatterns("/version")
+            .addPathPatterns("/article/**").addPathPatterns("/tag/**");
   }
 }

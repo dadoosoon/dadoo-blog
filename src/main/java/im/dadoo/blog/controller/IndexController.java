@@ -30,7 +30,6 @@ public class IndexController extends BaseController {
     }
     Integer pagesize = this.configService.getArticlePagesize();
     List<Pair<Article, List<Tag>>> pairs = this.articleService.list(pagecount - 1, pagesize);
-    this.renderSidebar(map);
     map.addAttribute("article-tags-pairs", pairs);
     map.addAttribute("cur-pagecount", pagecount);
     map.addAttribute("max-pagecount", 1 + this.articleService.size() / pagesize);
@@ -39,7 +38,6 @@ public class IndexController extends BaseController {
   
   @RequestMapping(value = "/version", method = RequestMethod.GET)
   public String version(ModelMap map) {
-    this.renderSidebar(map);
     return "version";
   }
 }

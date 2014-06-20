@@ -29,7 +29,6 @@ public class ArticleController extends BaseController {
     this.articleService.click(id);
     Pair<Article, List<Tag>> pair = this.articleService.findById(id);
     if (pair != null) {
-      this.renderSidebar(map);
       map.addAttribute("pair", pair);
       map.addAttribute("prev-next", this.articleService.findPrevAndNextById(id));
       return "item";
@@ -47,7 +46,6 @@ public class ArticleController extends BaseController {
     Integer pagesize = this.configService.getArticlePagesize();
     List<Pair<Article, List<Tag>>> pairs = 
             this.articleService.listByTagId(id, pagecount - 1, pagesize);
-    this.renderSidebar(map);
     map.addAttribute("current-tag", this.tagService.findById(id));
     map.addAttribute("article-tags-pairs", pairs);
     map.addAttribute("cur-pagecount", pagecount);

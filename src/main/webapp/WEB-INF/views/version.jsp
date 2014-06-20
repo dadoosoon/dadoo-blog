@@ -49,6 +49,13 @@
                 <li>#feature 将日志的创建时间，评论次数等信息从文章底端移动到标题底端，并且用图表替换文字</li>
               </ol>
             </li>
+            <li class="list-group-item">
+              <h3 class="list-group-item-heading"><span class="label label-info">0.0.5</span><small class="pull-right">更新时间:2014-06-14</small></h3>
+              <ol class="version-list">
+                <li>#improve 使用guava替代apache commons，改进参数合法性检查</li>
+                <li>#improve 使用interceptor改善侧边栏渲染的代码结构</li>
+              </ol>
+            </li>
           </ul>
         </div>
       </div>
