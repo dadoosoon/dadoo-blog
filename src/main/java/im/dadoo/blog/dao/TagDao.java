@@ -6,6 +6,8 @@
 
 package im.dadoo.blog.dao;
 
+import static com.google.common.base.Preconditions.*;
+import im.dadoo.blog.cons.ExceptionConstants;
 import im.dadoo.blog.domain.Tag;
 import java.io.Serializable;
 import java.sql.ResultSet;
@@ -61,6 +63,7 @@ public class TagDao extends BaseDao<Tag> {
   
   @Override
   public Tag add(Tag tag) {
+    checkNotNull(tag, ExceptionConstants.NULL_POINTER_TPL, "tag");
     KeyHolder holder = new GeneratedKeyHolder();
     MapSqlParameterSource sps = new MapSqlParameterSource();
     sps.addValue("name", tag.getName());
@@ -71,6 +74,8 @@ public class TagDao extends BaseDao<Tag> {
   
   @Override
   public Tag update(Tag tag) {
+    checkNotNull(tag, ExceptionConstants.NULL_POINTER_TPL, "tag");
+    checkNotNull(tag.getId(), ExceptionConstants.NULL_POINTER_TPL, "tag.id");
     MapSqlParameterSource sps = new MapSqlParameterSource();
     sps.addValue("id", tag.getId());
     sps.addValue("name", tag.getName());
@@ -80,6 +85,7 @@ public class TagDao extends BaseDao<Tag> {
   
   @Override
   public void deleteById(Serializable id) {
+    checkNotNull(id, ExceptionConstants.NULL_POINTER_TPL, "id");
     MapSqlParameterSource sps = new MapSqlParameterSource();
     sps.addValue("id", id);
     this.jdbcTemplate.update(DELETE_BY_ID_SQL, sps);
@@ -87,6 +93,7 @@ public class TagDao extends BaseDao<Tag> {
   
   @Override
   public Tag findById(Serializable id) {
+    checkNotNull(id, ExceptionConstants.NULL_POINTER_TPL, "id");
     MapSqlParameterSource sps = new MapSqlParameterSource();
     sps.addValue("id", id);
     List<Tag> tags = this.jdbcTemplate.query(FIND_BY_ID_SQL, sps, this.baseRowMapper);

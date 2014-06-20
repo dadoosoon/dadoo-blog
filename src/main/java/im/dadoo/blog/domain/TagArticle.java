@@ -6,6 +6,7 @@
 
 package im.dadoo.blog.domain;
 
+import com.google.common.base.Objects;
 import java.io.Serializable;
 
 /**
@@ -25,6 +26,11 @@ public class TagArticle implements Serializable {
     ta.setTagId(tagId);
     ta.setArticleId(articleId);
     return ta;
+  }
+  
+  @Override
+  public String toString() {
+    return Objects.toStringHelper(this).add("tagId", tagId).add("articleId", articleId).toString();
   }
   
   /**

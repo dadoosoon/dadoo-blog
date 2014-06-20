@@ -6,6 +6,7 @@
 
 package im.dadoo.blog.domain;
 
+import com.google.common.base.Objects;
 import java.io.Serializable;
 
 /**
@@ -36,14 +37,8 @@ public class Link implements Serializable {
   
   @Override
   public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append("{");
-    sb.append("id:").append(getId()).append(",");
-    sb.append("name:").append(getName()).append(",");
-    sb.append("url:").append(getUrl()).append(",");
-    sb.append("description:").append(getDescription());
-    sb.append("}");
-    return sb.toString();
+    return Objects.toStringHelper(this).add("id", id).add("name", name)
+            .add("url", url).add("description", description).toString();
   }
   /**
    * @return the id

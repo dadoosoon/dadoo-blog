@@ -6,8 +6,8 @@
 
 package im.dadoo.blog.domain;
 
+import com.google.common.base.Objects;
 import java.io.Serializable;
-import java.util.Objects;
 
 /**
  *
@@ -27,6 +27,11 @@ public class Tag implements Serializable {
     return tag;
   }
 
+  @Override
+  public String toString() {
+    return Objects.toStringHelper(this).add("id", id).add("name", name).toString();
+  }
+  
   /**
    * @return the id
    */

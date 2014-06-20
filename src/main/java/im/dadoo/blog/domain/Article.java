@@ -6,6 +6,7 @@
 
 package im.dadoo.blog.domain;
 
+import com.google.common.base.Objects;
 import java.io.Serializable;
 
 /**
@@ -37,6 +38,13 @@ public class Article implements Serializable {
     article.setPublishDatetime(publishDatetime);
     article.setClick(click);
     return article;
+  }
+  
+  @Override
+  public String toString() {
+    return Objects.toStringHelper(this).add("id", id).add("title", title).add("html", html)
+            .add("text", text).add("publishDatetime", publishDatetime).add("click", click)
+            .toString();
   }
   
   /**

@@ -6,6 +6,8 @@
 
 package im.dadoo.blog.dao;
 
+import static com.google.common.base.Preconditions.*;
+import im.dadoo.blog.cons.ExceptionConstants;
 import im.dadoo.blog.domain.Article;
 import java.io.Serializable;
 import java.sql.ResultSet;
@@ -83,6 +85,7 @@ public class ArticleDao extends BaseDao<Article> {
   
   @Override
   public Article add(Article article) {
+    checkNotNull(article, ExceptionConstants.NULL_POINTER_TPL, "article");
     KeyHolder holder = new GeneratedKeyHolder();
     MapSqlParameterSource sps = new MapSqlParameterSource();
     sps.addValue("title", article.getTitle());
@@ -97,6 +100,8 @@ public class ArticleDao extends BaseDao<Article> {
   
   @Override
   public Article update(Article article) {
+    checkNotNull(article, ExceptionConstants.NULL_POINTER_TPL, "article");
+    checkNotNull(article.getId(), ExceptionConstants.NULL_POINTER_TPL, "article.id");
     MapSqlParameterSource sps = new MapSqlParameterSource();
     sps.addValue("id", article.getId());
     sps.addValue("title", article.getTitle());
@@ -108,6 +113,7 @@ public class ArticleDao extends BaseDao<Article> {
   }
   
   public void click(Serializable id) {
+    checkNotNull(id, ExceptionConstants.NULL_POINTER_TPL, "id");
     MapSqlParameterSource sps = new MapSqlParameterSource();
     sps.addValue("id", id);
     this.jdbcTemplate.update(UPDATE_CLICK_SQL, sps);
@@ -115,6 +121,7 @@ public class ArticleDao extends BaseDao<Article> {
   
   @Override
   public void deleteById(Serializable id) {
+    checkNotNull(id, ExceptionConstants.NULL_POINTER_TPL, "id");
     MapSqlParameterSource sps = new MapSqlParameterSource();
     sps.addValue("id", id);
     this.jdbcTemplate.update(DELETE_BY_ID_SQL, sps);
@@ -122,6 +129,7 @@ public class ArticleDao extends BaseDao<Article> {
   
   @Override
   public Article findById(Serializable id) {
+    checkNotNull(id, ExceptionConstants.NULL_POINTER_TPL, "id");
     MapSqlParameterSource sps = new MapSqlParameterSource();
     sps.addValue("id", id);
     List<Article> articles = this.jdbcTemplate.query(FIND_BY_ID_SQL, sps, this.baseRowMapper);
@@ -133,6 +141,7 @@ public class ArticleDao extends BaseDao<Article> {
   }
   
   public Article findPrevById(Serializable id) {
+    checkNotNull(id, ExceptionConstants.NULL_POINTER_TPL, "id");
     MapSqlParameterSource sps = new MapSqlParameterSource();
     sps.addValue("id", id);
     List<Article> articles = this.jdbcTemplate.query(FIND_PREV_BY_ID_SQL, sps, this.baseRowMapper);
@@ -144,6 +153,7 @@ public class ArticleDao extends BaseDao<Article> {
   }
   
   public Article findNextById(Serializable id) {
+    checkNotNull(id, ExceptionConstants.NULL_POINTER_TPL, "id");
     MapSqlParameterSource sps = new MapSqlParameterSource();
     sps.addValue("id", id);
     List<Article> articles = this.jdbcTemplate.query(FIND_NEXT_BY_ID_SQL, sps, this.baseRowMapper);
@@ -155,6 +165,7 @@ public class ArticleDao extends BaseDao<Article> {
   }
   
   public List<Article> list(Integer limit) {
+    checkArgument(limit > 0, ExceptionConstants.GT_TPL, "limit", 0);
     MapSqlParameterSource sps = new MapSqlParameterSource();
     sps.addValue("limit", limit);
     List<Article> articles = this.jdbcTemplate.query(LIST_LIMIT_SQL, sps, this.baseRowMapper);
@@ -163,6 +174,7 @@ public class ArticleDao extends BaseDao<Article> {
   
   @Override
   public List<Article> list(Integer pagecount, Integer pagesize) {
+    checkArgument(pagesize > 0, ExceptionConstants.GT_TPL, "pagesize", 0);
     MapSqlParameterSource sps = new MapSqlParameterSource();
     sps.addValue("pagecount", pagecount);
     sps.addValue("pagesize", pagesize);
@@ -171,6 +183,7 @@ public class ArticleDao extends BaseDao<Article> {
   }
   
   public List<Article> listOrderByClickDesc(Integer limit) {
+    checkArgument(limit > 0, ExceptionConstants.GT_TPL, "limit", 0);
     MapSqlParameterSource sps = new MapSqlParameterSource();
     sps.addValue("limit", limit);
     List<Article> articles = this.jdbcTemplate.query(LIST_CLICK_DESC_SQL, sps, this.baseRowMapper);
