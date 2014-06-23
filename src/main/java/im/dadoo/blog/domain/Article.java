@@ -6,13 +6,16 @@
 
 package im.dadoo.blog.domain;
 
-import com.google.common.base.Objects;
 import java.io.Serializable;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  *
  * @author codekitten
  */
+@NoArgsConstructor
+@Data
 public class Article implements Serializable {
   
   private Integer id;
@@ -26,8 +29,6 @@ public class Article implements Serializable {
   private Long publishDatetime;
   
   private Integer click;
-
-  public Article() {}
   
   public static Article create(String title, String html, String text, 
           Long publishDatetime, Integer click) {
@@ -39,96 +40,5 @@ public class Article implements Serializable {
     article.setClick(click);
     return article;
   }
-  
-  @Override
-  public String toString() {
-    return Objects.toStringHelper(this).add("id", id).add("title", title).add("html", html)
-            .add("text", text).add("publishDatetime", publishDatetime).add("click", click)
-            .toString();
-  }
-  
-  /**
-   * @return the id
-   */
-  public Integer getId() {
-    return id;
-  }
 
-  /**
-   * @param id the id to set
-   */
-  public void setId(Integer id) {
-    this.id = id;
-  }
-
-  /**
-   * @return the title
-   */
-  public String getTitle() {
-    return title;
-  }
-
-  /**
-   * @param title the title to set
-   */
-  public void setTitle(String title) {
-    this.title = title;
-  }
-
-  /**
-   * @return the html
-   */
-  public String getHtml() {
-    return html;
-  }
-
-  /**
-   * @param html the html to set
-   */
-  public void setHtml(String html) {
-    this.html = html;
-  }
-
-  /**
-   * @return the text
-   */
-  public String getText() {
-    return text;
-  }
-
-  /**
-   * @param text the text to set
-   */
-  public void setText(String text) {
-    this.text = text;
-  }
-
-  /**
-   * @return the publishDatetime
-   */
-  public Long getPublishDatetime() {
-    return publishDatetime;
-  }
-
-  /**
-   * @param publishDatetime the publishDatetime to set
-   */
-  public void setPublishDatetime(Long publishDatetime) {
-    this.publishDatetime = publishDatetime;
-  }
-
-  /**
-   * @return the click
-   */
-  public Integer getClick() {
-    return click;
-  }
-
-  /**
-   * @param click the click to set
-   */
-  public void setClick(Integer click) {
-    this.click = click;
-  }
-  
 }

@@ -54,6 +54,7 @@
               <ol class="version-list">
                 <li>#improve 使用guava替代apache commons，改进参数合法性检查</li>
                 <li>#improve 使用interceptor改善侧边栏渲染的代码结构</li>
+                <li>#improve 使用lombok库简化代码</li>
               </ol>
             </li>
           </ul>

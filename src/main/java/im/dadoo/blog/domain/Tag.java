@@ -6,20 +6,21 @@
 
 package im.dadoo.blog.domain;
 
-import com.google.common.base.Objects;
 import java.io.Serializable;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  *
  * @author codekitten
  */
+@Data
+@NoArgsConstructor
 public class Tag implements Serializable {
   
   private Integer id;
   
   private String name;
-  
-  public Tag() {}
   
   public static Tag create(String name) {
     Tag tag = new Tag();
@@ -27,38 +28,4 @@ public class Tag implements Serializable {
     return tag;
   }
 
-  @Override
-  public String toString() {
-    return Objects.toStringHelper(this).add("id", id).add("name", name).toString();
-  }
-  
-  /**
-   * @return the id
-   */
-  public Integer getId() {
-    return id;
-  }
-
-  /**
-   * @param id the id to set
-   */
-  public void setId(Integer id) {
-    this.id = id;
-  }
-
-  /**
-   * @return the name
-   */
-  public String getName() {
-    return name;
-  }
-
-  /**
-   * @param name the name to set
-   */
-  public void setName(String name) {
-    this.name = name;
-  }
-  
-  
 }

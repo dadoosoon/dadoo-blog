@@ -6,13 +6,16 @@
 
 package im.dadoo.blog.domain;
 
-import com.google.common.base.Objects;
 import java.io.Serializable;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  *
  * @author codekitten
  */
+@Data
+@NoArgsConstructor
 public class Link implements Serializable {
   
   private static final long serialVersionUID = 1L;
@@ -24,8 +27,6 @@ public class Link implements Serializable {
   private String url;
   
   private String description;
-  
-  public Link() {}
 
   public static Link create(String name, String url, String description) {
     Link link = new Link();
@@ -34,66 +35,4 @@ public class Link implements Serializable {
     link.setDescription(description);
     return link;
   }
-  
-  @Override
-  public String toString() {
-    return Objects.toStringHelper(this).add("id", id).add("name", name)
-            .add("url", url).add("description", description).toString();
-  }
-  /**
-   * @return the id
-   */
-  public Integer getId() {
-    return id;
-  }
-
-  /**
-   * @param id the id to set
-   */
-  public void setId(Integer id) {
-    this.id = id;
-  }
-
-  /**
-   * @return the name
-   */
-  public String getName() {
-    return name;
-  }
-
-  /**
-   * @param name the name to set
-   */
-  public void setName(String name) {
-    this.name = name;
-  }
-
-  /**
-   * @return the url
-   */
-  public String getUrl() {
-    return url;
-  }
-
-  /**
-   * @param url the url to set
-   */
-  public void setUrl(String url) {
-    this.url = url;
-  }
-
-  /**
-   * @return the description
-   */
-  public String getDescription() {
-    return description;
-  }
-
-  /**
-   * @param description the description to set
-   */
-  public void setDescription(String description) {
-    this.description = description;
-  }
-  
 }
