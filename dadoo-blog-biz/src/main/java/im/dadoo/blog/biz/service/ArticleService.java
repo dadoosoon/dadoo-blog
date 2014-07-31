@@ -14,8 +14,8 @@ import im.dadoo.blog.domain.Tag;
 import im.dadoo.blog.domain.TagArticle;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import javax.annotation.Resource;
-import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 import org.jsoup.Jsoup;
 import org.springframework.stereotype.Service;
@@ -83,14 +83,14 @@ public class ArticleService {
     Article article = this.articleDao.findById(id);
     if (article != null) {
       List<Tag> tags = this.tagDao.listByArticleId(id);
-      return ImmutablePair.of(article, tags);
+      return Pair.of(article, tags);
     } else {
       return null;
     }
   }
   
   public Pair<Article, Article> findPrevAndNextById(Integer id) {
-    return ImmutablePair.of(this.articleDao.findPrevById(id), this.articleDao.findNextById(id));
+    return Pair.of(this.articleDao.findPrevById(id), this.articleDao.findNextById(id));
   }
   
   public List<Article> list(Integer limit) {
@@ -103,7 +103,7 @@ public class ArticleService {
       List<Pair<Article, List<Tag>>> pairs = new ArrayList<>();
       for (Article article : articles) {
         List<Tag> tags = this.tagDao.listByArticleId(article.getId());
-        pairs.add(ImmutablePair.of(article, tags));
+        pairs.add(Pair.of(article, tags));
       }
       return pairs;
     } else {
@@ -121,12 +121,16 @@ public class ArticleService {
       List<Pair<Article, List<Tag>>> pairs = new ArrayList<>();
       for (Article article : articles) {
         List<Tag> tags = this.tagDao.listByArticleId(article.getId());
-        pairs.add(ImmutablePair.of(article, tags));
+        pairs.add(Pair.of(article, tags));
       }
       return pairs;
     } else {
       return null;
     }
+  }
+  
+  public List<Article> query(Map<String, Object> params) {
+    return this.articleDao.query(params);
   }
   
   public Integer size() {

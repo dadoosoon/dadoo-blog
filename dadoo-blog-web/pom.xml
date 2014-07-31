@@ -18,7 +18,7 @@
     <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <springframework.version>4.0.5.RELEASE</springframework.version>
-    <logback.version>1.1.1</logback.version>
+    <logback.version>1.1.2</logback.version>
   </properties>
   
   <dependencies>
@@ -93,11 +93,11 @@
       <artifactId>logback-access</artifactId>
       <version>${logback.version}</version>
     </dependency>
-    <dependency>
+<!--    <dependency>
       <groupId>${project.groupId}</groupId>
       <artifactId>logger-client</artifactId>
       <version>0.2.0</version>
-    </dependency>
+    </dependency>-->
   </dependencies>
 
   <build>

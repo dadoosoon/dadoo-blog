@@ -8,7 +8,9 @@ package im.dadoo.blog.biz.dao;
 
 import im.dadoo.blog.biz.configuration.BizContext;
 import im.dadoo.blog.domain.Article;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -31,5 +33,13 @@ public class ArticleDaoTest {
   public void testList() {
     int size = (int)this.articleDao.size();
     System.out.println(size);
+  }
+  
+  @Test
+  public void testQuery() {
+    Map<String, Object> params = new HashMap<String, Object>();
+    params.put("text", "%爱%");
+    List<Article> list = this.articleDao.query(params);
+    System.out.println(list);
   }
 }

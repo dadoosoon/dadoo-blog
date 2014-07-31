@@ -9,10 +9,14 @@ package im.dadoo.blog.biz.dao;
 import static com.google.common.base.Preconditions.*;
 import im.dadoo.blog.biz.cons.ExceptionConstants;
 import im.dadoo.blog.domain.Article;
+import im.dadoo.spring.jdbc.support.Criteria;
+import im.dadoo.spring.jdbc.support.Pair;
+import im.dadoo.spring.jdbc.support.condition.Condition;
+import im.dadoo.spring.jdbc.support.condition.Conditions;
 import java.io.Serializable;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import javax.annotation.Resource;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -27,6 +31,8 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public class ArticleDao extends BaseDao<Article> {
+  
+  private static final String ALL_FIELDS = "id,title,html,text,publish_datetime,click";
   
   private static final String ADD_SQL = 
           "INSERT INTO t_article(title,html,text,publish_datetime,click) "
@@ -43,28 +49,28 @@ public class ArticleDao extends BaseDao<Article> {
           "DELETE FROM t_article WHERE id=:id";
   
   private static final String FIND_BY_ID_SQL = 
-          "SELECT id,title,html,text,publish_datetime,click "
-          + "FROM t_article WHERE id=:id LIMIT 1";
+          "SELECT " + ALL_FIELDS +
+          " FROM t_article WHERE id=:id LIMIT 1";
   
   private static final String FIND_PREV_BY_ID_SQL = 
-          "SELECT id,title,html,text,publish_datetime,click "
-          + "FROM t_article WHERE id<:id ORDER BY id DESC LIMIT 1";
+          "SELECT " + ALL_FIELDS + 
+          " FROM t_article WHERE id<:id ORDER BY id DESC LIMIT 1";
   
   private static final String FIND_NEXT_BY_ID_SQL = 
-          "SELECT id,title,html,text,publish_datetime,click "
-          + "FROM t_article WHERE id>:id ORDER BY id ASC LIMIT 1";
+          "SELECT " + ALL_FIELDS + 
+          " FROM t_article WHERE id>:id ORDER BY id ASC LIMIT 1";
   
   private static final String LIST_LIMIT_SQL = 
-          "SELECT id,title,html,text,publish_datetime,click "
-          + "FROM t_article ORDER BY publish_datetime DESC LIMIT :limit";
+          "SELECT " + ALL_FIELDS + 
+          " FROM t_article ORDER BY publish_datetime DESC LIMIT :limit";
   
   private static final String LIST_PAGINATION_SQL = 
-          "SELECT id,title,html,text,publish_datetime,click "
-          + "FROM t_article ORDER BY publish_datetime DESC LIMIT :pagecount,:pagesize";
+          "SELECT " + ALL_FIELDS + 
+          " FROM t_article ORDER BY publish_datetime DESC LIMIT :pagecount,:pagesize";
   
   private static final String LIST_CLICK_DESC_SQL = 
-          "SELECT id,title,html,text,publish_datetime,click "
-          + "FROM t_article ORDER BY click DESC LIMIT :limit";
+          "SELECT " + ALL_FIELDS + 
+          " FROM t_article ORDER BY click DESC LIMIT :limit";
   
   private static final String LIST_BY_TAG_ID_PAGINATION_SQL = 
           "SELECT t_article.id AS id,t_article.title AS title,t_article.html AS html, "
@@ -199,6 +205,24 @@ public class ArticleDao extends BaseDao<Article> {
     List<Article> articles = this.jdbcTemplate.query(
             LIST_BY_TAG_ID_PAGINATION_SQL, sps, this.articleRowMapper);
     return articles;
+  }
+  
+  public List<Article> query(Map<String, Object> params) {
+    List<Condition> conds = new ArrayList<>();
+    MapSqlParameterSource sps = new MapSqlParameterSource();
+    if (params.containsKey("publish_datetime")) {
+      conds.add(Conditions.between("publish_datetime"));
+      Pair<Long, Long> pair = (Pair<Long, Long>)params.get("publish_datetime");
+      sps.addValue("publish_datetime_1", pair.getV1());
+      sps.addValue("publish_datetime_2", pair.getV2());
+    }
+    if (params.containsKey("text")) {
+      conds.add(Conditions.like("text"));
+      sps.addValue("text", (String)params.get("text"));
+    }
+    String sql = "SELECT " + ALL_FIELDS + " FROM t_article " + Criteria.where(conds)
+            + " ORDER BY publish_datetime DESC";
+    return this.jdbcTemplate.query(sql, sps, this.articleRowMapper);
   }
   
   @Override

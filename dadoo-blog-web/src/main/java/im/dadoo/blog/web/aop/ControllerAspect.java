@@ -6,9 +6,9 @@
 
 package im.dadoo.blog.web.aop;
 
-import im.dadoo.log.Log;
-import im.dadoo.log.LogMaker;
-import im.dadoo.logger.client.LoggerClient;
+//import im.dadoo.log.Log;
+//import im.dadoo.log.LogMaker;
+//import im.dadoo.logger.client.LoggerClient;
 import javax.annotation.Resource;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -27,8 +27,8 @@ public class ControllerAspect {
   
   private static final Logger logger = LoggerFactory.getLogger(ControllerAspect.class);
   
-  @Resource
-  private LoggerClient loggerClient;
+//  @Resource
+//  private LoggerClient loggerClient;
   
   @Around("@annotation(org.springframework.web.bind.annotation.RequestMapping)")
   public Object stat(ProceedingJoinPoint pjp) throws Throwable {
@@ -37,8 +37,8 @@ public class ControllerAspect {
     long t2 = System.currentTimeMillis();
     String sig = pjp.getSignature().toLongString();
     logger.info("函数名:{}~~运行时间:{}", sig, t2 - t1);
-    Log log = LogMaker.makeFunctionLog("dadooblog", sig, null, null, t2 - t1);
-    this.loggerClient.send(log);
+//    Log log = LogMaker.makeFunctionLog("dadooblog", sig, null, null, t2 - t1);
+//    this.loggerClient.send(log);
     return ret;
   }
 }
