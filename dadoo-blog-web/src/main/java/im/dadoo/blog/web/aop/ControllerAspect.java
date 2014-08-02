@@ -6,15 +6,13 @@
 
 package im.dadoo.blog.web.aop;
 
-//import im.dadoo.log.Log;
-//import im.dadoo.log.LogMaker;
-//import im.dadoo.logger.client.LoggerClient;
-import javax.annotation.Resource;
+import java.util.HashMap;
+import java.util.Map;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 /**
@@ -25,10 +23,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class ControllerAspect {
   
-  private static final Logger logger = LoggerFactory.getLogger(ControllerAspect.class);
-  
-//  @Resource
-//  private LoggerClient loggerClient;
+  private static final Logger logger = LogManager.getLogger("im.dadoo.blog.web.controller");
   
   @Around("@annotation(org.springframework.web.bind.annotation.RequestMapping)")
   public Object stat(ProceedingJoinPoint pjp) throws Throwable {
@@ -36,9 +31,10 @@ public class ControllerAspect {
     Object ret = pjp.proceed();
     long t2 = System.currentTimeMillis();
     String sig = pjp.getSignature().toLongString();
-    logger.info("函数名:{}~~运行时间:{}", sig, t2 - t1);
-//    Log log = LogMaker.makeFunctionLog("dadooblog", sig, null, null, t2 - t1);
-//    this.loggerClient.send(log);
+    Map<String, Object> map = new HashMap<>();
+    map.put("sig", sig);
+    map.put("runtime", t2 - t1);
+    logger.info(map);
     return ret;
   }
 }
