@@ -4,12 +4,11 @@
   <parent>
     <artifactId>dadoo-blog</artifactId>
     <groupId>im.dadoo</groupId>
-    <version>0.1.0</version>
+    <version>0.1.2</version>
   </parent>
 
   <groupId>im.dadoo</groupId>
   <artifactId>dadoo-blog-web</artifactId>
-  <version>0.1.0</version>
   <packaging>war</packaging>
 
   <name>dadoo-blog-web</name>
