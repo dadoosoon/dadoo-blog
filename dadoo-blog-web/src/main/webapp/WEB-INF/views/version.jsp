@@ -65,6 +65,13 @@
                 <li>#improve 引入log4j2作为日志组件，替代logback和dadoo-log系统</li>
               </ol>
             </li>
+            <li class="list-group-item">
+              <h3 class="list-group-item-heading"><span class="label label-info">0.1.2</span><small class="pull-right">更新时间:2014-08-29</small></h3>
+              <ol class="version-list">
+                <li>#bugfixed 修正分页错误</li>
+                <li>#improve 改进异常参数的判断和处理</li>
+              </ol>
+            </li>
           </ul>
         </div>
       </div>

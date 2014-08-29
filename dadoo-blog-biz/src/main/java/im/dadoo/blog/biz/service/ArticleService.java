@@ -70,7 +70,7 @@ public class ArticleService {
   }
   
   public Article click(Integer id) {
-    this.articleDao.click(id);
+    this.articleDao.updateClick(id);
     return this.articleDao.findById(id);
   } 
   
@@ -129,8 +129,8 @@ public class ArticleService {
     }
   }
   
-  public List<Article> query(Map<String, Object> params) {
-    return this.articleDao.query(params);
+  public List<Article> query(Map<String, Object> params, int pagecount, int pagesize) {
+    return this.articleDao.query(params, pagecount, pagesize);
   }
   
   public Integer size() {

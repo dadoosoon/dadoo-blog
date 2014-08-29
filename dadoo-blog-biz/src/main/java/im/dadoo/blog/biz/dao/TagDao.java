@@ -7,11 +7,9 @@
 package im.dadoo.blog.biz.dao;
 
 import static com.google.common.base.Preconditions.*;
-import im.dadoo.blog.biz.cons.ExceptionConstants;
+import im.dadoo.blog.biz.util.ExceptionMessageMaker;
 import im.dadoo.blog.domain.Tag;
 import java.io.Serializable;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.List;
 import javax.annotation.Resource;
 import org.springframework.jdbc.core.RowMapper;
@@ -64,7 +62,7 @@ public class TagDao extends BaseDao<Tag> {
   
   @Override
   public Tag add(Tag tag) {
-    checkNotNull(tag, ExceptionConstants.NULL_POINTER_TPL, "tag");
+    checkNotNull(tag, ExceptionMessageMaker.makeNullPointerMessage("tag"));
     KeyHolder holder = new GeneratedKeyHolder();
     MapSqlParameterSource sps = new MapSqlParameterSource();
     sps.addValue("name", tag.getName());
@@ -75,8 +73,8 @@ public class TagDao extends BaseDao<Tag> {
   
   @Override
   public Tag update(Tag tag) {
-    checkNotNull(tag, ExceptionConstants.NULL_POINTER_TPL, "tag");
-    checkNotNull(tag.getId(), ExceptionConstants.NULL_POINTER_TPL, "tag.id");
+    checkNotNull(tag, ExceptionMessageMaker.makeNullPointerMessage("tag"));
+    checkNotNull(tag.getId(), ExceptionMessageMaker.makeNullPointerMessage("tag.id"));
     MapSqlParameterSource sps = new MapSqlParameterSource();
     sps.addValue("id", tag.getId());
     sps.addValue("name", tag.getName());
@@ -86,7 +84,7 @@ public class TagDao extends BaseDao<Tag> {
   
   @Override
   public void deleteById(Serializable id) {
-    checkNotNull(id, ExceptionConstants.NULL_POINTER_TPL, "id");
+    checkNotNull(id, ExceptionMessageMaker.makeNullPointerMessage("id"));
     MapSqlParameterSource sps = new MapSqlParameterSource();
     sps.addValue("id", id);
     this.jdbcTemplate.update(DELETE_BY_ID_SQL, sps);
@@ -94,7 +92,7 @@ public class TagDao extends BaseDao<Tag> {
   
   @Override
   public Tag findById(Serializable id) {
-    checkNotNull(id, ExceptionConstants.NULL_POINTER_TPL, "id");
+    checkNotNull(id, ExceptionMessageMaker.makeNullPointerMessage("id"));
     MapSqlParameterSource sps = new MapSqlParameterSource();
     sps.addValue("id", id);
     List<Tag> tags = this.jdbcTemplate.query(FIND_BY_ID_SQL, sps, this.tagRowMapper);

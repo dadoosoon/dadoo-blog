@@ -7,7 +7,7 @@
 package im.dadoo.blog.biz.dao;
 
 import static com.google.common.base.Preconditions.*;
-import im.dadoo.blog.biz.cons.ExceptionConstants;
+import im.dadoo.blog.biz.util.ExceptionMessageMaker;
 import im.dadoo.blog.domain.Link;
 import java.io.Serializable;
 import java.util.List;
@@ -56,7 +56,7 @@ public class LinkDao extends BaseDao<Link>{
   
   @Override
   public Link add(Link link) {
-    checkNotNull(link, ExceptionConstants.NULL_POINTER_TPL, "link");
+    checkNotNull(link, ExceptionMessageMaker.makeNullPointerMessage("link"));
     KeyHolder holder = new GeneratedKeyHolder();
     MapSqlParameterSource sps = new MapSqlParameterSource();
     sps.addValue("name", link.getName());
@@ -69,8 +69,8 @@ public class LinkDao extends BaseDao<Link>{
   
   @Override
   public Link update(Link link) {
-    checkNotNull(link, ExceptionConstants.NULL_POINTER_TPL, "link");
-    checkNotNull(link.getId(), ExceptionConstants.NULL_POINTER_TPL, "link.id");
+    checkNotNull(link, ExceptionMessageMaker.makeNullPointerMessage("link"));
+    checkNotNull(link.getId(), ExceptionMessageMaker.makeNullPointerMessage("link.id"));
     MapSqlParameterSource sps = new MapSqlParameterSource();
     sps.addValue("id", link.getId());
     sps.addValue("name", link.getName());
@@ -82,7 +82,7 @@ public class LinkDao extends BaseDao<Link>{
   
   @Override
   public void deleteById(Serializable id) {
-    checkNotNull(id, ExceptionConstants.NULL_POINTER_TPL, "id");
+    checkNotNull(id, ExceptionMessageMaker.makeNullPointerMessage("id"));
     MapSqlParameterSource sps = new MapSqlParameterSource();
     sps.addValue("id", id);
     this.jdbcTemplate.update(DELETE_BY_ID_SQL, sps);
@@ -90,7 +90,7 @@ public class LinkDao extends BaseDao<Link>{
   
   @Override
   public Link findById(Serializable id) {
-    checkNotNull(id, ExceptionConstants.NULL_POINTER_TPL, "id");
+    checkNotNull(id, ExceptionMessageMaker.makeNullPointerMessage("id"));
     MapSqlParameterSource sps = new MapSqlParameterSource();
     sps.addValue("id", id);
     List<Link> links = this.jdbcTemplate.query(FIND_BY_ID_SQL, sps, this.linkRowMapper);

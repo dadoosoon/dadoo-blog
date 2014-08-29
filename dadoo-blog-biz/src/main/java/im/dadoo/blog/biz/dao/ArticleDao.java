@@ -6,8 +6,10 @@
 
 package im.dadoo.blog.biz.dao;
 
-import static com.google.common.base.Preconditions.*;
-import im.dadoo.blog.biz.cons.ExceptionConstants;
+
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
+import im.dadoo.blog.biz.util.ExceptionMessageMaker;
 import im.dadoo.blog.domain.Article;
 import im.dadoo.spring.jdbc.support.Criteria;
 import im.dadoo.spring.jdbc.support.Pair;
@@ -66,7 +68,7 @@ public class ArticleDao extends BaseDao<Article> {
   
   private static final String LIST_PAGINATION_SQL = 
           "SELECT " + ALL_FIELDS + 
-          " FROM t_article ORDER BY publish_datetime DESC LIMIT :pagecount,:pagesize";
+          " FROM t_article ORDER BY publish_datetime DESC LIMIT :offset,:pagesize";
   
   private static final String LIST_CLICK_DESC_SQL = 
           "SELECT " + ALL_FIELDS + 
@@ -78,7 +80,7 @@ public class ArticleDao extends BaseDao<Article> {
           + "t_article.click AS click FROM t_article "
           + "RIGHT OUTER JOIN t_tag_article ON t_article.id=t_tag_article.article_id "
           + "WHERE t_tag_article.tag_id=:tag_id "
-          + "ORDER BY t_article.publish_datetime DESC LIMIT :pagecount,:pagesize";
+          + "ORDER BY t_article.publish_datetime DESC LIMIT :offset,:pagesize";
   
   private static final String SIZE_SQL = 
           "SELECT count(*) AS size FROM t_article";
@@ -92,7 +94,7 @@ public class ArticleDao extends BaseDao<Article> {
   
   @Override
   public Article add(Article article) {
-    checkNotNull(article, ExceptionConstants.NULL_POINTER_TPL, "article");
+    checkNotNull(article, ExceptionMessageMaker.makeNullPointerMessage("article"));
     KeyHolder holder = new GeneratedKeyHolder();
     MapSqlParameterSource sps = new MapSqlParameterSource();
     sps.addValue("title", article.getTitle());
@@ -107,8 +109,8 @@ public class ArticleDao extends BaseDao<Article> {
   
   @Override
   public Article update(Article article) {
-    checkNotNull(article, ExceptionConstants.NULL_POINTER_TPL, "article");
-    checkNotNull(article.getId(), ExceptionConstants.NULL_POINTER_TPL, "article.id");
+    checkNotNull(article, ExceptionMessageMaker.makeNullPointerMessage("article"));
+    checkNotNull(article.getId(), ExceptionMessageMaker.makeNullPointerMessage("article.id"));
     MapSqlParameterSource sps = new MapSqlParameterSource();
     sps.addValue("id", article.getId());
     sps.addValue("title", article.getTitle());
@@ -119,8 +121,8 @@ public class ArticleDao extends BaseDao<Article> {
     return article;
   }
   
-  public void click(Serializable id) {
-    checkNotNull(id, ExceptionConstants.NULL_POINTER_TPL, "id");
+  public void updateClick(int id) {
+    checkArgument(id > 0, ExceptionMessageMaker.makeGTMessage("id", 0, id));
     MapSqlParameterSource sps = new MapSqlParameterSource();
     sps.addValue("id", id);
     this.jdbcTemplate.update(UPDATE_CLICK_SQL, sps);
@@ -128,7 +130,7 @@ public class ArticleDao extends BaseDao<Article> {
   
   @Override
   public void deleteById(Serializable id) {
-    checkNotNull(id, ExceptionConstants.NULL_POINTER_TPL, "id");
+    checkArgument((int)id > 0, ExceptionMessageMaker.makeGTMessage("id", 0, id));
     MapSqlParameterSource sps = new MapSqlParameterSource();
     sps.addValue("id", id);
     this.jdbcTemplate.update(DELETE_BY_ID_SQL, sps);
@@ -136,7 +138,7 @@ public class ArticleDao extends BaseDao<Article> {
   
   @Override
   public Article findById(Serializable id) {
-    checkNotNull(id, ExceptionConstants.NULL_POINTER_TPL, "id");
+    checkNotNull(id, ExceptionMessageMaker.makeNullPointerMessage("id"));
     MapSqlParameterSource sps = new MapSqlParameterSource();
     sps.addValue("id", id);
     List<Article> articles = this.jdbcTemplate.query(FIND_BY_ID_SQL, sps, this.articleRowMapper);
@@ -148,7 +150,7 @@ public class ArticleDao extends BaseDao<Article> {
   }
   
   public Article findPrevById(Serializable id) {
-    checkNotNull(id, ExceptionConstants.NULL_POINTER_TPL, "id");
+    checkNotNull(id, ExceptionMessageMaker.makeNullPointerMessage("id"));
     MapSqlParameterSource sps = new MapSqlParameterSource();
     sps.addValue("id", id);
     List<Article> articles = this.jdbcTemplate.query(FIND_PREV_BY_ID_SQL, sps, this.articleRowMapper);
@@ -160,7 +162,7 @@ public class ArticleDao extends BaseDao<Article> {
   }
   
   public Article findNextById(Serializable id) {
-    checkNotNull(id, ExceptionConstants.NULL_POINTER_TPL, "id");
+    checkNotNull(id, ExceptionMessageMaker.makeNullPointerMessage("id"));
     MapSqlParameterSource sps = new MapSqlParameterSource();
     sps.addValue("id", id);
     List<Article> articles = this.jdbcTemplate.query(FIND_NEXT_BY_ID_SQL, sps, this.articleRowMapper);
@@ -172,7 +174,7 @@ public class ArticleDao extends BaseDao<Article> {
   }
   
   public List<Article> list(Integer limit) {
-    checkArgument(limit > 0, ExceptionConstants.GT_TPL, "limit", 0);
+    checkArgument(limit > 0, ExceptionMessageMaker.makeGTMessage("limit", 0, limit));
     MapSqlParameterSource sps = new MapSqlParameterSource();
     sps.addValue("limit", limit);
     List<Article> articles = this.jdbcTemplate.query(LIST_LIMIT_SQL, sps, this.articleRowMapper);
@@ -181,16 +183,17 @@ public class ArticleDao extends BaseDao<Article> {
   
   @Override
   public List<Article> list(Integer pagecount, Integer pagesize) {
-    checkArgument(pagesize > 0, ExceptionConstants.GT_TPL, "pagesize", 0);
+    checkArgument(pagesize > 0, ExceptionMessageMaker.makeGTMessage("pagesize", 0, pagesize));
+    checkArgument(pagecount >= 0, ExceptionMessageMaker.makeGEMessage("pagecount", 0, pagecount));
     MapSqlParameterSource sps = new MapSqlParameterSource();
-    sps.addValue("pagecount", pagecount);
+    sps.addValue("offset", pagecount * pagesize);
     sps.addValue("pagesize", pagesize);
     List<Article> articles = this.jdbcTemplate.query(LIST_PAGINATION_SQL, sps, this.articleRowMapper);
     return articles;
   }
   
   public List<Article> listOrderByClickDesc(Integer limit) {
-    checkArgument(limit > 0, ExceptionConstants.GT_TPL, "limit", 0);
+    checkArgument(limit > 0, ExceptionMessageMaker.makeGTMessage("limit", 0, limit));
     MapSqlParameterSource sps = new MapSqlParameterSource();
     sps.addValue("limit", limit);
     List<Article> articles = this.jdbcTemplate.query(LIST_CLICK_DESC_SQL, sps, this.articleRowMapper);
@@ -200,14 +203,14 @@ public class ArticleDao extends BaseDao<Article> {
   public List<Article> listByTagId(Integer tagId, Integer pagecount, Integer pagesize) {
     MapSqlParameterSource sps = new MapSqlParameterSource();
     sps.addValue("tag_id", tagId);
-    sps.addValue("pagecount", pagecount);
+    sps.addValue("offset", pagecount * pagesize);
     sps.addValue("pagesize", pagesize);
     List<Article> articles = this.jdbcTemplate.query(
             LIST_BY_TAG_ID_PAGINATION_SQL, sps, this.articleRowMapper);
     return articles;
   }
   
-  public List<Article> query(Map<String, Object> params) {
+  public List<Article> query(Map<String, Object> params, int pagecount, int pagesize) {
     List<Condition> conds = new ArrayList<>();
     MapSqlParameterSource sps = new MapSqlParameterSource();
     if (params.containsKey("publish_datetime")) {
@@ -220,8 +223,10 @@ public class ArticleDao extends BaseDao<Article> {
       conds.add(Conditions.like("text"));
       sps.addValue("text", (String)params.get("text"));
     }
+    sps.addValue("offset", pagecount * pagesize);
+    sps.addValue("pagesize", pagesize);
     String sql = "SELECT " + ALL_FIELDS + " FROM t_article " + Criteria.where(conds)
-            + " ORDER BY publish_datetime DESC";
+            + " ORDER BY publish_datetime DESC LIMIT :offset, :pagesize";
     return this.jdbcTemplate.query(sql, sps, this.articleRowMapper);
   }
   

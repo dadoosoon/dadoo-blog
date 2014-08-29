@@ -35,11 +35,11 @@ public class ArticleDaoTest {
     System.out.println(size);
   }
   
-  @Test
   public void testQuery() {
-    Map<String, Object> params = new HashMap<String, Object>();
+    Map<String, Object> params = new HashMap<>();
     params.put("text", "%爱%");
-    List<Article> list = this.articleDao.query(params);
+    List<Article> list = this.articleDao.query(params, 0, 10);
     System.out.println(list);
   }
+ 
 }
